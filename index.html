@@ -6,7 +6,7 @@
 <title>PM Loop PRO</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Pretendard:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-:root {
+:root{
   --bg:#f5f4f0;--surface:#fff;--card:#fafaf8;
   --border:#e8e5df;--border2:#d4d0c8;
   --text:#1a1916;--muted:#8c8880;--muted2:#b5b0a8;
@@ -16,207 +16,313 @@
   --s3:#d97706;--s3b:#fef3c7;--s3t:#92400e;
   --s4:#ea580c;--s4b:#ffedd5;--s4t:#9a3412;
   --s5:#16a34a;--s5b:#dcfce7;--s5t:#14532d;
-  --shadow:0 1px 3px rgba(0,0,0,.08);
+  --shadow:0 1px 4px rgba(0,0,0,.08);
   --shadow-md:0 4px 16px rgba(0,0,0,.1);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Pretendard',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
-.app{display:grid;grid-template-rows:auto 1fr;height:100vh;overflow:hidden;}
+body{font-family:'Pretendard',sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
+.app{display:grid;grid-template-rows:52px 1fr;height:100vh;overflow:hidden;}
 
-/* Topbar */
-.topbar{background:var(--surface);border-bottom:2px solid var(--text);padding:0 24px;display:flex;align-items:center;gap:20px;height:52px;flex-shrink:0;}
+/* ── Topbar ── */
+.topbar{background:var(--surface);border-bottom:2px solid var(--text);padding:0 20px;display:flex;align-items:center;gap:16px;flex-shrink:0;}
 .logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;}
 .logo em{color:var(--accent);font-style:normal;}
-.nav{display:flex;gap:2px;margin-left:12px;}
-.nav-btn{padding:5px 14px;border:none;background:none;font-family:'Pretendard',sans-serif;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-radius:5px;transition:all .15s;}
+.nav{display:flex;gap:2px;margin-left:8px;}
+.nav-btn{padding:5px 13px;border:none;background:none;font-family:'Pretendard',sans-serif;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-radius:5px;transition:all .15s;}
 .nav-btn.on{background:var(--text);color:#fff;}
 .nav-btn:hover:not(.on){background:var(--border);color:var(--text);}
 .topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
-.sync-status{display:flex;align-items:center;gap:6px;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--muted);padding:4px 10px;background:var(--card);border:1px solid var(--border);border-radius:20px;}
+.sync-status{display:flex;align-items:center;gap:6px;font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted);padding:4px 10px;background:var(--card);border:1px solid var(--border);border-radius:20px;}
 .sync-dot{width:6px;height:6px;border-radius:50%;background:var(--muted2);}
-.sync-dot.ok{background:#16a34a;} .sync-dot.err{background:#dc2626;}
+.sync-dot.ok{background:#16a34a;}.sync-dot.err{background:#dc2626;}
 .sync-dot.ing{background:#d97706;animation:blink .8s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.btn{padding:6px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid var(--border2);background:var(--surface);color:var(--text);font-family:'Pretendard',sans-serif;transition:all .15s;}
+.btn{padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid var(--border2);background:var(--surface);color:var(--text);font-family:'Pretendard',sans-serif;transition:all .15s;}
 .btn:hover{border-color:var(--accent);color:var(--accent);}
 .btn-primary{background:var(--text);border-color:var(--text);color:#fff;}
 .btn-primary:hover{background:#333;border-color:#333;color:#fff;}
 .btn-sm{padding:4px 10px;font-size:12px;}
 .btn-danger{color:#dc2626;border-color:#fca5a5;}
+.btn-stage{padding:7px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:'Pretendard',sans-serif;transition:all .15s;display:inline-flex;align-items:center;gap:6px;}
 
-/* Pages */
+/* ── Pages ── */
 .page{display:none;height:calc(100vh - 52px);overflow:hidden;}
 .page.on{display:flex;flex-direction:column;}
 
-/* Usage banner */
-.usage-banner{background:var(--accent-light);border-bottom:1.5px solid #c7d5fa;padding:10px 24px;display:flex;align-items:flex-start;gap:10px;flex-shrink:0;}
-.usage-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
-.usage-text{font-size:12px;color:#1e3a8a;line-height:1.6;}
+/* ── Dashboard ── */
+.dash-inner{overflow-y:auto;flex:1;display:flex;flex-direction:column;}
+.usage-banner{background:var(--accent-light);border-bottom:1.5px solid #c7d5fa;padding:10px 20px;display:flex;align-items:flex-start;gap:10px;flex-shrink:0;}
+.usage-text{font-size:12px;color:#1e3a8a;line-height:1.6;flex:1;}
 .usage-text strong{font-weight:600;}
-.usage-close{margin-left:auto;background:none;border:none;font-size:16px;color:#3b5fc0;cursor:pointer;padding:0 4px;flex-shrink:0;}
-
-/* Dashboard */
-.dash-top{padding:16px 24px 12px;display:flex;align-items:flex-end;justify-content:space-between;flex-shrink:0;}
-.dash-heading{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.5px;line-height:1;}
+.usage-close{background:none;border:none;font-size:16px;color:#3b5fc0;cursor:pointer;padding:0 4px;flex-shrink:0;}
+.dash-top{padding:16px 20px 10px;display:flex;align-items:flex-end;justify-content:space-between;flex-shrink:0;}
+.dash-heading{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.5px;line-height:1;}
 .dash-sub{font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--muted);margin-top:2px;}
-.stats{display:flex;gap:10px;padding:0 24px 14px;flex-shrink:0;}
-.stat{flex:1;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;box-shadow:var(--shadow);}
-.stat-l{font-size:10px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:6px;}
-.stat-n{font-family:'Bebas Neue',sans-serif;font-size:32px;line-height:1;}
-.stat-s{font-size:11px;color:var(--muted);margin-top:2px;}
+.stats{display:flex;gap:8px;padding:0 20px 12px;flex-shrink:0;}
+.stat{flex:1;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;box-shadow:var(--shadow);}
+.stat-l{font-size:10px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:4px;}
+.stat-n{font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1;}
+.stat-s{font-size:11px;color:var(--muted);margin-top:1px;}
 
-/* Kanban */
-.kanban{display:flex;gap:12px;padding:0 24px 24px;overflow-x:auto;flex:1;align-items:flex-start;}
+/* ── Kanban ── */
+.kanban{display:flex;gap:10px;padding:0 20px 20px;overflow-x:auto;flex:1;align-items:flex-start;min-height:0;}
 .kanban::-webkit-scrollbar{height:5px;}
 .kanban::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
-.col{flex:0 0 230px;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;display:flex;flex-direction:column;max-height:100%;box-shadow:var(--shadow);}
-.col-hd{padding:13px 14px 11px;border-bottom:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;gap:8px;}
-.col-stripe{width:3px;height:16px;border-radius:2px;flex-shrink:0;}
-.col-name{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.5px;}
-.col-cnt{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);background:var(--bg);padding:2px 7px;border-radius:10px;}
-.col-body{padding:10px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:8px;}
-.col-body::-webkit-scrollbar{width:4px;}
-.col-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
-.col-foot{padding:8px 10px;flex-shrink:0;}
-.col-add-btn{width:100%;background:none;border:1.5px dashed var(--border2);border-radius:7px;color:var(--muted);font-size:12px;font-weight:500;padding:7px;cursor:pointer;font-family:'Pretendard',sans-serif;transition:all .15s;}
+.col{flex:0 0 220px;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;display:flex;flex-direction:column;max-height:100%;box-shadow:var(--shadow);}
+.col-hd{padding:11px 13px 9px;border-bottom:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;gap:7px;}
+.col-stripe{width:3px;height:15px;border-radius:2px;flex-shrink:0;}
+.col-name{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.5px;}
+.col-cnt{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);background:var(--bg);padding:1px 6px;border-radius:8px;}
+.col-body{padding:8px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:7px;}
+.col-foot{padding:6px 8px;flex-shrink:0;}
+.col-add-btn{width:100%;background:none;border:1.5px dashed var(--border2);border-radius:7px;color:var(--muted);font-size:12px;font-weight:500;padding:6px;cursor:pointer;font-family:'Pretendard',sans-serif;transition:all .15s;}
 .col-add-btn:hover{border-color:var(--accent);color:var(--accent);}
 
-/* Project Card */
-.pcard{background:var(--card);border:1.5px solid var(--border);border-radius:9px;padding:12px;cursor:pointer;transition:all .15s;}
+/* ── Project Card ── */
+.pcard{background:var(--card);border:1.5px solid var(--border);border-radius:9px;padding:11px;cursor:pointer;transition:all .15s;}
 .pcard:hover{border-color:var(--border2);box-shadow:var(--shadow-md);transform:translateY(-1px);}
-.pcard-title{font-weight:600;font-size:13px;margin-bottom:7px;line-height:1.4;}
-.pcard-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px;}
-.tag{font-size:10px;font-family:'JetBrains Mono',monospace;font-weight:500;padding:2px 7px;border-radius:4px;}
-.tag-발굴{background:var(--s1b);color:var(--s1t);} .tag-검증{background:var(--s2b);color:var(--s2t);}
-.tag-전략{background:var(--s3b);color:var(--s3t);} .tag-실행{background:var(--s4b);color:var(--s4t);}
+.pcard-title{font-weight:600;font-size:13px;margin-bottom:6px;line-height:1.4;}
+.pcard-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;}
+.tag{font-size:10px;font-family:'JetBrains Mono',monospace;font-weight:500;padding:2px 6px;border-radius:4px;}
+.tag-발굴{background:var(--s1b);color:var(--s1t);}.tag-검증{background:var(--s2b);color:var(--s2t);}
+.tag-전략{background:var(--s3b);color:var(--s3t);}.tag-실행{background:var(--s4b);color:var(--s4t);}
 .tag-측정{background:var(--s5b);color:var(--s5t);}
-.tag-high{background:#fee2e2;color:#991b1b;} .tag-mid{background:#fef3c7;color:#92400e;} .tag-low{background:#dcfce7;color:#14532d;}
-.pcard-members{display:flex;gap:4px;margin-bottom:6px;flex-wrap:wrap;align-items:center;}
-.avatar-xs{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;}
-.pcard-role-tag{font-size:9px;font-family:'JetBrains Mono',monospace;padding:1px 5px;border-radius:3px;background:#f1f0ec;color:var(--muted);}
+.tag-high{background:#fee2e2;color:#991b1b;}.tag-mid{background:#fef3c7;color:#92400e;}.tag-low{background:#dcfce7;color:#14532d;}
+.pcard-members{display:flex;gap:3px;margin-bottom:5px;flex-wrap:wrap;align-items:center;}
+.avatar-xs{width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;}
+.pcard-role-tag{font-size:9px;font-family:'JetBrains Mono',monospace;padding:1px 4px;border-radius:3px;background:#f1f0ec;color:var(--muted);}
 .prog-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
 .prog-fill{height:100%;border-radius:2px;transition:width .4s;}
-.prog-lbl{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--muted);margin-top:3px;}
+.prog-lbl{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--muted);margin-top:2px;}
+.pcard-tool-hint{display:flex;align-items:center;gap:4px;margin-top:6px;padding:5px 7px;background:var(--accent-light);border-radius:5px;font-size:10px;color:var(--accent);font-weight:500;}
 
-/* Modal */
+/* ── Modal (project detail) ── */
 .mbg{display:none;position:fixed;inset:0;background:rgba(26,25,22,.55);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
 .mbg.on{display:flex;}
 .modal{background:var(--surface);border:1.5px solid var(--border2);border-radius:16px;width:580px;max-width:96vw;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-md);}
 .modal::-webkit-scrollbar{width:5px;}
 .modal::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
-.mhd{padding:20px 22px 16px;border-bottom:1.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--surface);z-index:1;}
-.mtitle{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.5px;}
+.mhd{padding:16px 20px 14px;border-bottom:1.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--surface);z-index:1;}
+.mtitle{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:.5px;}
 .mclose{background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted);padding:2px 8px;border-radius:4px;}
 .mclose:hover{background:var(--border);color:var(--text);}
-.mbody{padding:20px 22px;}
-.mfoot{padding:14px 22px;border-top:1.5px solid var(--border);display:flex;gap:8px;align-items:center;position:sticky;bottom:0;background:var(--surface);}
-.field{margin-bottom:16px;}
-.field label{display:block;font-size:11px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:6px;font-weight:500;}
-.field input,.field textarea,.field select{width:100%;background:var(--bg);border:1.5px solid var(--border2);border-radius:8px;color:var(--text);font-family:'Pretendard',sans-serif;font-size:14px;padding:9px 12px;outline:none;transition:border .15s;}
+.mbody{padding:18px 20px;}
+.mfoot{padding:12px 20px;border-top:1.5px solid var(--border);display:flex;gap:8px;align-items:center;position:sticky;bottom:0;background:var(--surface);}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:11px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:5px;font-weight:500;}
+.field input,.field textarea,.field select{width:100%;background:var(--bg);border:1.5px solid var(--border2);border-radius:8px;color:var(--text);font-family:'Pretendard',sans-serif;font-size:14px;padding:8px 11px;outline:none;transition:border .15s;}
 .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent);}
 .field select option{background:var(--surface);}
-.field textarea{resize:vertical;min-height:76px;}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-
-/* Stage selector */
-.stage-sel{display:flex;gap:6px;margin-bottom:18px;}
-.ss-item{flex:1;text-align:center;padding:8px 4px;border-radius:8px;border:1.5px solid var(--border);cursor:pointer;transition:all .15s;font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--muted);line-height:1.5;}
+.field textarea{resize:vertical;min-height:68px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.stage-sel{display:flex;gap:5px;margin-bottom:14px;}
+.ss-item{flex:1;text-align:center;padding:7px 3px;border-radius:7px;border:1.5px solid var(--border);cursor:pointer;transition:all .15s;font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--muted);line-height:1.5;}
 .ss-item:hover{border-color:var(--border2);}
 .ss-item.a-발굴{background:var(--s1b);border-color:var(--s1);color:var(--s1t);font-weight:600;}
 .ss-item.a-검증{background:var(--s2b);border-color:var(--s2);color:var(--s2t);font-weight:600;}
 .ss-item.a-전략{background:var(--s3b);border-color:var(--s3);color:var(--s3t);font-weight:600;}
 .ss-item.a-실행{background:var(--s4b);border-color:var(--s4);color:var(--s4t);font-weight:600;}
 .ss-item.a-측정{background:var(--s5b);border-color:var(--s5);color:var(--s5t);font-weight:600;}
-
-/* Role assignment */
-.role-assign-list{display:flex;flex-direction:column;gap:8px;}
-.role-assign-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:8px;border:1.5px solid var(--border);}
-.ra-avatar{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;}
-.ra-name{font-weight:600;font-size:13px;width:64px;flex-shrink:0;}
-.ra-select{flex:1;background:var(--surface);border:1.5px solid var(--border2);border-radius:6px;color:var(--text);font-family:'Pretendard',sans-serif;font-size:12px;padding:5px 8px;outline:none;}
-.ra-select:focus{border-color:var(--accent);}
-
-/* Todo */
-.sec-lbl{font-size:11px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:8px;font-weight:500;}
+.sec-lbl{font-size:11px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:7px;font-weight:500;}
 .todos{display:flex;flex-direction:column;gap:5px;}
-.todo{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg);border-radius:7px;border:1.5px solid var(--border);}
+.todo{display:flex;align-items:center;gap:9px;padding:7px 10px;background:var(--bg);border-radius:7px;border:1.5px solid var(--border);}
 .chk{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
 .chk.done{background:var(--accent);border-color:var(--accent);}
 .chk.done::after{content:'✓';font-size:10px;color:#fff;font-weight:700;}
-.todo-txt{font-size:13px;flex:1;} .todo-txt.done{text-decoration:line-through;color:var(--muted);}
-.todo-del{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:13px;padding:2px 5px;border-radius:3px;transition:all .15s;}
+.todo-txt{font-size:13px;flex:1;}.todo-txt.done{text-decoration:line-through;color:var(--muted);}
+.todo-del{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:13px;padding:2px 4px;border-radius:3px;transition:all .15s;}
 .todo-del:hover{color:#dc2626;background:#fee2e2;}
-.add-row{display:flex;gap:6px;margin-top:8px;}
-.add-row input{flex:1;}
+.add-row{display:flex;gap:6px;margin-top:7px;}.add-row input{flex:1;}
+.role-assign-list{display:flex;flex-direction:column;gap:6px;}
+.role-assign-item{display:flex;align-items:center;gap:9px;padding:8px 11px;background:var(--bg);border-radius:8px;border:1.5px solid var(--border);}
+.ra-avatar{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.ra-name{font-weight:600;font-size:13px;width:60px;flex-shrink:0;}
+.ra-select{flex:1;background:var(--surface);border:1.5px solid var(--border2);border-radius:6px;color:var(--text);font-family:'Pretendard',sans-serif;font-size:12px;padding:5px 8px;outline:none;}
+.ra-select:focus{border-color:var(--accent);}
 
-/* Analytics page */
+/* ── Worksheet page ── */
+#pg-worksheet{overflow:hidden;}
+.ws-wrap{display:flex;flex-direction:column;height:100%;overflow:hidden;}
+.ws-topbar{background:var(--surface);border-bottom:1.5px solid var(--border);padding:0 20px;display:flex;align-items:center;gap:12px;height:48px;flex-shrink:0;}
+.ws-back{background:none;border:none;color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;font-family:'Pretendard',sans-serif;display:flex;align-items:center;gap:4px;padding:4px 8px;border-radius:6px;transition:all .15s;}
+.ws-back:hover{background:var(--border);color:var(--text);}
+.ws-proj-name{font-weight:600;font-size:14px;}
+.ws-stage-badge{font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:600;padding:3px 10px;border-radius:10px;}
+.ws-tabs{display:flex;gap:0;border-bottom:1.5px solid var(--border);flex-shrink:0;background:var(--surface);padding:0 20px;overflow-x:auto;}
+.ws-tabs::-webkit-scrollbar{height:0;}
+.ws-tab{padding:10px 16px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);background:none;border-left:none;border-right:none;border-top:none;font-family:'Pretendard',sans-serif;transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:6px;}
+.ws-tab.on{color:var(--text);border-bottom-color:var(--text);font-weight:600;}
+.ws-tab:hover:not(.on){color:var(--text);}
+.ws-content{flex:1;overflow-y:auto;padding:24px 20px;}
+.ws-content::-webkit-scrollbar{width:5px;}
+.ws-content::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+.ws-panel{display:none;}.ws-panel.on{display:block;}
+
+/* ── Worksheet tool cards ── */
+.tool-card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:var(--shadow);}
+.tool-card-hd{margin-bottom:16px;}
+.tool-card-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.5px;margin-bottom:4px;}
+.tool-card-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+.tool-tip{background:var(--bg);border-left:3px solid var(--accent);padding:8px 12px;border-radius:0 6px 6px 0;font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px;}
+.tool-tip strong{color:var(--text);font-weight:600;}
+
+/* Why x3 */
+.why-chain{display:flex;flex-direction:column;gap:0;}
+.why-step{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:14px;}
+.why-step-hd{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.why-num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.why-q{font-size:13px;font-weight:600;}
+.why-textarea{width:100%;background:var(--surface);border:1.5px solid var(--border2);border-radius:8px;padding:10px 12px;font-family:'Pretendard',sans-serif;font-size:14px;color:var(--text);outline:none;resize:vertical;min-height:72px;transition:border .15s;}
+.why-textarea:focus{border-color:var(--accent);}
+.why-arrow{text-align:center;font-size:20px;color:var(--muted2);padding:6px 0;}
+.why-result{background:var(--s1b);border:1.5px solid var(--s1);border-radius:10px;padding:14px;margin-top:4px;}
+.why-result-lbl{font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--s1t);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;}
+
+/* Idea board */
+.idea-board{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.idea-sticky{background:#fef9c3;border:1.5px solid #fde68a;border-radius:10px;padding:12px;}
+.idea-sticky-lbl{font-size:10px;font-family:'JetBrains Mono',monospace;font-weight:600;color:#92400e;margin-bottom:6px;text-transform:uppercase;}
+.idea-textarea{width:100%;background:transparent;border:none;font-family:'Pretendard',sans-serif;font-size:13px;color:var(--text);outline:none;resize:none;min-height:80px;}
+
+/* Interview guide */
+.interview-flow{display:flex;flex-direction:column;gap:10px;}
+.iflow-step{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:14px;}
+.iflow-hd{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.iflow-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.iflow-title{font-size:13px;font-weight:600;}
+.iflow-time{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted);margin-left:auto;}
+.iflow-qs{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;}
+.iflow-q{font-size:12px;color:var(--muted);padding:5px 10px;background:var(--surface);border-radius:5px;border-left:2px solid var(--border2);line-height:1.5;}
+.iflow-note{width:100%;background:var(--surface);border:1.5px solid var(--border2);border-radius:7px;padding:8px 10px;font-family:'Pretendard',sans-serif;font-size:13px;color:var(--text);outline:none;resize:vertical;min-height:60px;transition:border .15s;}
+.iflow-note:focus{border-color:var(--accent);}
+
+/* Feedback board */
+.feedback-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.fb-card{border-radius:10px;padding:12px;}
+.fb-lbl{font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:6px;text-transform:uppercase;}
+.fb-textarea{width:100%;background:rgba(255,255,255,.7);border:1.5px solid rgba(0,0,0,.08);border-radius:7px;padding:8px 10px;font-family:'Pretendard',sans-serif;font-size:13px;color:var(--text);outline:none;resize:vertical;min-height:80px;}
+.fb-textarea:focus{border-color:var(--accent);}
+
+/* Winning plan checklist */
+.winning-list{display:flex;flex-direction:column;gap:8px;}
+.win-item{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:all .15s;}
+.win-item.checked{border-color:var(--s3);background:var(--s3b);}
+.win-chk{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .15s;}
+.win-item.checked .win-chk{background:var(--s3);border-color:var(--s3);}
+.win-item.checked .win-chk::after{content:'✓';font-size:10px;color:#fff;font-weight:700;}
+.win-content{flex:1;}
+.win-title{font-size:13px;font-weight:600;margin-bottom:2px;}
+.win-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+.win-item.checked .win-title{color:var(--s3t);}
+.win-item.checked .win-desc{color:var(--s3t);opacity:.8;}
+.win-score{background:var(--s3b);border:1.5px solid var(--s3);border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-top:12px;}
+.win-score-lbl{font-size:12px;font-weight:600;color:var(--s3t);}
+.win-score-val{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--s3t);}
+
+/* Competitor */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.comp-card{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;}
+.comp-badge{font-size:10px;font-family:'JetBrains Mono',monospace;font-weight:700;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:4px;}
+.comp-desc{font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5;}
+.comp-ta{width:100%;background:var(--surface);border:1.5px solid var(--border2);border-radius:7px;padding:7px 10px;font-family:'Pretendard',sans-serif;font-size:13px;color:var(--text);outline:none;resize:vertical;min-height:70px;transition:border .15s;}
+.comp-ta:focus{border-color:var(--accent);}
+
+/* MoSCoW */
+.moscow-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.moscow-card{border-radius:10px;padding:14px;border:1.5px solid transparent;}
+.moscow-lbl{font-size:12px;font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:3px;}
+.moscow-sub{font-size:11px;margin-bottom:8px;opacity:.8;}
+.moscow-ta{width:100%;background:rgba(255,255,255,.7);border:1.5px solid rgba(0,0,0,.08);border-radius:7px;padding:8px 10px;font-family:'Pretendard',sans-serif;font-size:13px;color:var(--text);outline:none;resize:vertical;min-height:80px;}
+.moscow-ta:focus{border-color:rgba(0,0,0,.2);}
+
+/* PMF checklist */
+.pmf-list{display:flex;flex-direction:column;gap:7px;}
+.pmf-item{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;cursor:pointer;transition:all .15s;}
+.pmf-item.checked{background:var(--s5b);border-color:var(--s5);}
+.pmf-chk{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .15s;}
+.pmf-item.checked .pmf-chk{background:var(--s5);border-color:var(--s5);}
+.pmf-item.checked .pmf-chk::after{content:'✓';font-size:11px;color:#fff;font-weight:700;}
+.pmf-txt{font-size:13px;line-height:1.5;flex:1;}
+.pmf-item.checked .pmf-txt{color:var(--s5t);font-weight:500;}
+.pmf-score{background:var(--s5b);border:1.5px solid var(--s5);border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-top:10px;}
+.pmf-score-lbl{font-size:12px;font-weight:600;color:var(--s5t);}
+.pmf-score-val{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--s5t);}
+
+/* Result summary */
+.result-card{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:14px;margin-top:8px;}
+.result-label{font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.result-ta{width:100%;background:var(--surface);border:1.5px solid var(--border2);border-radius:7px;padding:10px 12px;font-family:'Pretendard',sans-serif;font-size:14px;color:var(--text);outline:none;resize:vertical;min-height:80px;transition:border .15s;}
+.result-ta:focus{border-color:var(--accent);}
+
+/* Save button */
+.ws-save-btn{width:100%;padding:12px;border-radius:10px;background:var(--text);border:none;color:#fff;font-family:'Pretendard',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .15s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.ws-save-btn:hover{background:#333;}
+
+/* Analytics */
 #pg-analytics{overflow-y:auto;padding:24px;gap:16px;}
-.an-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.5px;margin-bottom:4px;flex-shrink:0;}
-.an-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow);}
-.an-sub{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.3px;margin-bottom:14px;}
-.funnel-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
-.f-lbl{font-size:11px;font-family:'JetBrains Mono',monospace;width:48px;text-align:right;flex-shrink:0;font-weight:500;}
-.f-wrap{flex:1;height:26px;background:var(--bg);border-radius:5px;overflow:hidden;border:1px solid var(--border);}
+.an-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.5px;flex-shrink:0;}
+.an-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow);}
+.an-sub{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.3px;margin-bottom:12px;}
+.funnel-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
+.f-lbl{font-size:11px;font-family:'JetBrains Mono',monospace;width:44px;text-align:right;flex-shrink:0;font-weight:500;}
+.f-wrap{flex:1;height:24px;background:var(--bg);border-radius:5px;overflow:hidden;border:1px solid var(--border);}
 .f-bar{height:100%;border-radius:5px;display:flex;align-items:center;padding:0 8px;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:600;transition:width .6s;}
-.f-num{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;width:20px;text-align:right;}
-.act-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+.f-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;width:18px;text-align:right;}
+.act-item{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid var(--border);}
 .act-item:last-child{border-bottom:none;}
 .act-dot{width:6px;height:6px;border-radius:50%;margin-top:5px;flex-shrink:0;}
 .act-txt{font-size:13px;flex:1;line-height:1.5;}
 .act-time{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;flex-shrink:0;padding-top:2px;}
-.member-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
-.mb-name{font-size:12px;font-weight:500;width:72px;flex-shrink:0;}
-.mb-bar-wrap{flex:1;height:20px;background:var(--bg);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
-.mb-bar{height:100%;border-radius:4px;display:flex;align-items:center;padding:0 8px;font-size:10px;font-family:'JetBrains Mono',monospace;font-weight:600;transition:width .6s;}
-.mb-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;width:16px;text-align:right;}
+.mb-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
+.mb-name{font-size:12px;font-weight:500;width:68px;flex-shrink:0;}
+.mb-wrap{flex:1;height:18px;background:var(--bg);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+.mb-bar{height:100%;border-radius:4px;display:flex;align-items:center;padding:0 7px;font-size:10px;font-family:'JetBrains Mono',monospace;font-weight:600;transition:width .6s;}
+.mb-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;width:14px;text-align:right;}
 
-/* Members page */
-#pg-members{overflow-y:auto;padding:24px;gap:0;}
-.pg-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.5px;flex-shrink:0;margin-bottom:16px;}
-.roles-guide{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:16px;box-shadow:var(--shadow);}
-.roles-guide-title{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.3px;margin-bottom:12px;color:var(--text);}
-.role-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+/* Members */
+#pg-members{overflow-y:auto;padding:20px;gap:0;}
+.pg-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.5px;flex-shrink:0;margin-bottom:14px;}
+.roles-guide{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px 18px;margin-bottom:14px;box-shadow:var(--shadow);}
+.roles-guide-title{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.3px;margin-bottom:10px;}
+.role-item{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);}
 .role-item:last-child{border-bottom:none;}
-.role-badge{font-size:10px;font-family:'JetBrains Mono',monospace;font-weight:600;padding:3px 8px;border-radius:4px;background:var(--accent-light);color:var(--accent);white-space:nowrap;flex-shrink:0;height:fit-content;margin-top:1px;}
+.role-badge{font-size:10px;font-family:'JetBrains Mono',monospace;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--accent-light);color:var(--accent);white-space:nowrap;flex-shrink:0;height:fit-content;margin-top:1px;}
 .role-desc{font-size:12px;color:var(--muted);line-height:1.6;}
-.members-section-title{font-size:11px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:10px;margin-top:20px;font-weight:500;}
-.mem-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow);margin-bottom:8px;}
-.av-lg{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0;}
-.mi-name{font-weight:600;font-size:14px;margin-bottom:2px;}
+.mem-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;display:flex;align-items:center;gap:13px;box-shadow:var(--shadow);margin-bottom:8px;}
+.av-lg{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;}
+.mi-name{font-weight:600;font-size:14px;margin-bottom:1px;}
 .mi-role{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
 .ms-right{margin-left:auto;text-align:right;}
-.ms-cnt{font-family:'Bebas Neue',sans-serif;font-size:24px;line-height:1;}
+.ms-cnt{font-family:'Bebas Neue',sans-serif;font-size:22px;line-height:1;}
 .ms-lbl{font-size:11px;color:var(--muted);}
-.add-mem-btn{width:100%;padding:12px;background:none;border:1.5px dashed var(--border2);border-radius:12px;color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;font-family:'Pretendard',sans-serif;transition:all .15s;margin-top:4px;}
+.mem-sec-title{font-size:11px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:8px;margin-top:16px;font-weight:500;}
+.add-mem-btn{width:100%;padding:11px;background:none;border:1.5px dashed var(--border2);border-radius:12px;color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;font-family:'Pretendard',sans-serif;transition:all .15s;margin-top:4px;}
 .add-mem-btn:hover{border-color:var(--accent);color:var(--accent);}
 
 /* Toast / Loading */
 .toast{position:fixed;bottom:24px;right:24px;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:500;z-index:999;opacity:0;transform:translateY(8px);transition:all .2s;pointer-events:none;box-shadow:var(--shadow-md);}
-.toast.ok{background:var(--text);color:#fff;} .toast.err{background:#dc2626;color:#fff;}
+.toast.ok{background:var(--text);color:#fff;}.toast.err{background:#dc2626;color:#fff;}
 .toast.show{opacity:1;transform:translateY(0);}
-.empty{text-align:center;padding:28px 10px;color:var(--muted2);font-size:12px;}
-.empty-ic{font-size:26px;margin-bottom:6px;}
+.empty{text-align:center;padding:24px 10px;color:var(--muted2);font-size:12px;}
+.empty-ic{font-size:24px;margin-bottom:5px;}
 .loading{display:none;position:fixed;inset:0;background:rgba(245,244,240,.88);z-index:300;align-items:center;justify-content:center;flex-direction:column;gap:12px;}
 .loading.on{display:flex;}
 .loading-txt{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);}
-.spinner{width:28px;height:28px;border:2.5px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
+.spinner{width:26px;height:26px;border:2.5px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="topbar">
-    <div class="logo">PM<em>Loop</em> <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);font-weight:400;margin-left:4px;">PRO</span></div>
+    <div class="logo">PM<em>Loop</em> <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);font-weight:400;margin-left:4px;">PRO</span></div>
     <div class="nav">
-      <button class="nav-btn on" onclick="goPage('dashboard')">보드</button>
-      <button class="nav-btn" onclick="goPage('analytics')">분석</button>
-      <button class="nav-btn" onclick="goPage('members')">팀원 & 역할</button>
+      <button class="nav-btn on" id="nav-dashboard" onclick="goPage('dashboard')">보드</button>
+      <button class="nav-btn" id="nav-analytics" onclick="goPage('analytics')">분석</button>
+      <button class="nav-btn" id="nav-members" onclick="goPage('members')">팀원 & 역할</button>
     </div>
     <div class="topbar-right">
-      <div class="sync-status">
-        <div class="sync-dot ing" id="sync-dot"></div>
-        <span id="sync-txt">연결 중...</span>
-      </div>
+      <div class="sync-status"><div class="sync-dot ing" id="sync-dot"></div><span id="sync-txt">연결 중...</span></div>
       <button class="btn btn-sm" onclick="loadProjects()">↻ 새로고침</button>
       <button class="btn btn-primary" onclick="openNew()">+ 프로젝트</button>
     </div>
@@ -224,36 +330,42 @@ body{font-family:'Pretendard',sans-serif;background:var(--bg);color:var(--text);
 
   <!-- 보드 -->
   <div class="page on" id="pg-dashboard">
-    <div class="usage-banner" id="board-banner">
-      <div class="usage-icon">💡</div>
-      <div class="usage-text">
-        <strong>보드 사용법</strong> — 프로젝트는 5단계 루프(발굴→검증→전략→실행→측정)로 관리됩니다.
-        <strong>+ 프로젝트</strong> 버튼으로 새 프로젝트를 만들고, 각 카드를 클릭하면 단계 이동·팀원 역할 배분·체크리스트를 관리할 수 있습니다.
-        단계를 이동하면 해당 단계의 PM 체크리스트가 자동으로 업데이트됩니다.
+    <div class="dash-inner">
+      <div class="usage-banner" id="board-banner">
+        <div class="usage-text">💡 <strong>사용법</strong> — 프로젝트 카드 클릭 → 단계별 워크시트 버튼으로 이동해 <strong>Why×3, 인터뷰 가이드, 위닝플랜, MoSCoW, PMF 체크</strong> 등을 바로 작성하고 저장할 수 있습니다.</div>
+        <button class="usage-close" onclick="closeBanner('board-banner')">✕</button>
       </div>
-      <button class="usage-close" onclick="closeBanner('board-banner')">✕</button>
-    </div>
-    <div class="dash-top">
-      <div>
-        <div class="dash-heading">프로젝트 보드</div>
-        <div class="dash-sub" id="dash-sub">Google Sheets 연동 중...</div>
+      <div class="dash-top">
+        <div><div class="dash-heading">프로젝트 보드</div><div class="dash-sub" id="dash-sub">Google Sheets 연동 중...</div></div>
       </div>
+      <div class="stats" id="stats"></div>
+      <div class="kanban" id="kanban"></div>
     </div>
-    <div class="stats" id="stats"></div>
-    <div class="kanban" id="kanban"></div>
+  </div>
+
+  <!-- 워크시트 -->
+  <div class="page" id="pg-worksheet">
+    <div class="ws-wrap">
+      <div class="ws-topbar">
+        <button class="ws-back" onclick="goPage('dashboard')">← 보드로</button>
+        <div class="ws-proj-name" id="ws-proj-name"></div>
+        <div class="ws-stage-badge" id="ws-stage-badge"></div>
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <button class="btn btn-sm" onclick="saveWorksheet()">💾 저장</button>
+        </div>
+      </div>
+      <div class="ws-tabs" id="ws-tabs"></div>
+      <div class="ws-content" id="ws-content"></div>
+    </div>
   </div>
 
   <!-- 분석 -->
   <div class="page" id="pg-analytics">
     <div class="usage-banner" id="analytics-banner">
-      <div class="usage-icon">📊</div>
-      <div class="usage-text">
-        <strong>분석 사용법</strong> — 단계별 프로젝트 현황과 팀원별 참여 프로젝트 수를 한눈에 확인합니다.
-        <strong>발굴→측정 전환율</strong>은 아이디어가 실제 측정 단계까지 도달한 비율입니다. 전환율이 낮다면 검증·전략 단계에서 병목이 있는지 점검해보세요.
-      </div>
+      <div class="usage-text">📊 <strong>분석 사용법</strong> — 단계별 프로젝트 현황과 팀원별 참여도를 확인합니다. 발굴→측정 <strong>전환율이 낮으면</strong> 어느 단계에서 막히는지 점검해보세요.</div>
       <button class="usage-close" onclick="closeBanner('analytics-banner')">✕</button>
     </div>
-    <div style="overflow-y:auto;flex:1;padding:20px 24px;display:flex;flex-direction:column;gap:16px;">
+    <div style="overflow-y:auto;flex:1;padding:20px;display:flex;flex-direction:column;gap:14px;">
       <div class="an-title">루프 분석</div>
       <div class="an-card" id="funnel"></div>
       <div class="an-card" id="member-chart"></div>
@@ -261,61 +373,29 @@ body{font-family:'Pretendard',sans-serif;background:var(--bg);color:var(--text);
     </div>
   </div>
 
-  <!-- 팀원 & 역할 -->
+  <!-- 팀원 -->
   <div class="page" id="pg-members">
-    <div style="overflow-y:auto;flex:1;padding:24px;">
+    <div style="overflow-y:auto;flex:1;padding:20px;">
       <div class="pg-title">팀원 & 역할 가이드</div>
-
-      <!-- 역할 정의 -->
       <div class="roles-guide">
         <div class="roles-guide-title">역할 정의 — 프로젝트 생성 시 참고하세요</div>
-        <div class="role-item">
-          <div class="role-badge">PM</div>
-          <div class="role-desc">프로젝트의 전체 로드맵, 예산, 마감 일정을 총괄 관리하고 팀 간 업무를 조율합니다. 기획은 팀 전체가 아이디어를 내고, PM이 의사결정의 마침표를 찍습니다.</div>
-        </div>
-        <div class="role-item">
-          <div class="role-badge">회계</div>
-          <div class="role-desc">프로젝트의 자금 수립, 예산 운용, 세무 관리 및 정산을 전담하여 프로젝트의 재무적 안정성을 확보합니다.</div>
-        </div>
-        <div class="role-item">
-          <div class="role-badge">Maker</div>
-          <div class="role-desc">로컬 자원과 컨셉을 반영한 굿즈를 개발하고, 제작 공정 관리 및 품질을 책임집니다.</div>
-        </div>
-        <div class="role-item">
-          <div class="role-badge">콘텐츠</div>
-          <div class="role-desc">브랜드 메시지를 담은 글, 사진, 영상 등 홍보 콘텐츠를 기획하고 제작합니다.</div>
-        </div>
-        <div class="role-item">
-          <div class="role-badge">Growth</div>
-          <div class="role-desc">타겟 고객 데이터 분석 및 채널 최적화를 통해 브랜드 성장과 판매 전환을 극대화합니다.</div>
-        </div>
-        <div class="role-item">
-          <div class="role-badge">디자이너</div>
-          <div class="role-desc">굿즈의 비주얼 정체성, 패키지, 홍보물 및 공간 전시 등 시각적 완성도를 책임집니다.</div>
-        </div>
-        <div class="role-item">
-          <div class="role-badge">커뮤니티</div>
-          <div class="role-desc">지역 주민, 생산자, 고객과 소통하며 브랜드를 알리고 관계를 형성합니다.</div>
-        </div>
-        <div class="role-item">
-          <div class="role-badge">기획참여</div>
-          <div class="role-desc">기획 단계에서 아이디어를 제안하고 함께 논의합니다. 모든 팀원이 참여할 수 있습니다.</div>
-        </div>
+        <div class="role-item"><div class="role-badge">PM</div><div class="role-desc">전체 로드맵·예산·일정 총괄, 팀 간 조율. 기획은 팀 전체가 아이디어를 내고 PM이 의사결정의 마침표를 찍습니다.</div></div>
+        <div class="role-item"><div class="role-badge">회계</div><div class="role-desc">자금 수립, 예산 운용, 세무 관리 및 정산으로 프로젝트의 재무적 안정성을 확보합니다.</div></div>
+        <div class="role-item"><div class="role-badge">Maker</div><div class="role-desc">로컬 자원·컨셉 반영 굿즈 개발, 제작 공정 관리 및 품질 책임.</div></div>
+        <div class="role-item"><div class="role-badge">콘텐츠</div><div class="role-desc">브랜드 메시지를 담은 글·사진·영상 등 홍보 콘텐츠 기획 및 제작.</div></div>
+        <div class="role-item"><div class="role-badge">Growth</div><div class="role-desc">타겟 고객 데이터 분석 및 채널 최적화로 브랜드 성장과 판매 전환 극대화.</div></div>
+        <div class="role-item"><div class="role-badge">디자이너</div><div class="role-desc">굿즈 비주얼 정체성, 패키지, 홍보물 및 공간 전시 등 시각적 완성도 책임.</div></div>
+        <div class="role-item"><div class="role-badge">커뮤니티</div><div class="role-desc">지역 주민·생산자·고객과 소통하며 브랜드를 알리고 관계를 형성합니다.</div></div>
+        <div class="role-item"><div class="role-badge">기획참여</div><div class="role-desc">기획 단계에서 아이디어 제안과 논의에 참여합니다. 모든 팀원이 해당됩니다.</div></div>
       </div>
-
-      <!-- 팀원 목록 -->
-      <div class="members-section-title">정규 팀원</div>
+      <div class="mem-sec-title">정규 팀원</div>
       <div id="mem-list"></div>
       <button class="add-mem-btn" onclick="openAddMember()">+ 객원 멤버 추가</button>
     </div>
   </div>
 </div>
 
-<!-- Loading -->
-<div class="loading" id="loading">
-  <div class="spinner"></div>
-  <div class="loading-txt" id="loading-txt">Google Sheets 동기화 중...</div>
-</div>
+<div class="loading" id="loading"><div class="spinner"></div><div class="loading-txt" id="loading-txt">동기화 중...</div></div>
 
 <!-- 새 프로젝트 모달 -->
 <div class="mbg" id="m-new">
@@ -326,21 +406,19 @@ body{font-family:'Pretendard',sans-serif;background:var(--bg);color:var(--text);
       <div class="field"><label>현재 단계</label>
         <select id="n-stage">
           <option value="발굴">① 발굴 — 아이디어 수집 · Why ×3</option>
-          <option value="검증">② 검증 — 인터뷰 · 게릴라 테스트</option>
-          <option value="전략">③ 전략 — 위닝플랜 · TAM/SAM/SOM</option>
-          <option value="실행">④ 실행 — MVP · 스프린트</option>
-          <option value="측정">⑤ 측정 — AARRR · PMF 체크</option>
+          <option value="검증">② 검증 — 인터뷰 · 피드백 정리</option>
+          <option value="전략">③ 전략 — 위닝플랜 · 경쟁자 분석</option>
+          <option value="실행">④ 실행 — MoSCoW 우선순위</option>
+          <option value="측정">⑤ 측정 — PMF 체크 · 성과 정리</option>
         </select>
       </div>
       <div class="field"><label>우선순위</label>
         <select id="n-pri"><option value="high">🔴 높음</option><option value="mid" selected>🟡 중간</option><option value="low">🟢 낮음</option></select>
       </div>
-      <div class="field">
-        <label>팀원 역할 배분 <span style="font-size:10px;color:var(--muted);font-family:'Pretendard',sans-serif;text-transform:none;letter-spacing:0">(역할 정의는 '팀원 & 역할' 탭 참고)</span></label>
+      <div class="field"><label>팀원 역할 배분 <span style="font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0;font-family:'Pretendard',sans-serif">(역할 정의는 '팀원 & 역할' 탭 참고)</span></label>
         <div class="role-assign-list" id="n-role-list"></div>
       </div>
       <div class="field"><label>한 줄 설명</label><input id="n-desc" placeholder="어떤 문제를 해결하나요?"/></div>
-      <div class="field"><label>핵심 가설 (Why)</label><textarea id="n-why" placeholder="왜 이 프로젝트가 필요한가요? Why를 3번 물어보세요."></textarea></div>
     </div>
     <div class="mfoot">
       <button class="btn" onclick="closeMod('m-new')">취소</button>
@@ -366,7 +444,7 @@ body{font-family:'Pretendard',sans-serif;background:var(--bg);color:var(--text);
 
 <!-- 팀원 추가 모달 -->
 <div class="mbg" id="m-mem">
-  <div class="modal" style="width:400px">
+  <div class="modal" style="width:380px">
     <div class="mhd"><div class="mtitle">객원 멤버 추가</div><button class="mclose" onclick="closeMod('m-mem')">✕</button></div>
     <div class="mbody">
       <div class="field"><label>이름</label><input id="mem-name" placeholder="홍길동"/></div>
@@ -383,28 +461,50 @@ body{font-family:'Pretendard',sans-serif;background:var(--bg);color:var(--text);
 <div class="toast" id="toast"></div>
 
 <script>
-const SCRIPT_ID = 'AKfycbwj-XpLopYt0hrefptM5JqnWRnB0Nl3XqjzLiVeipRSdCadd84nKwL39bomdecFueyLGA';
-const API = `https://script.google.com/macros/s/${SCRIPT_ID}/exec`;
+const SCRIPT_ID='AKfycbwj-XpLopYt0hrefptM5JqnWRnB0Nl3XqjzLiVeipRSdCadd84nKwL39bomdecFueyLGA';
+const API=`https://script.google.com/macros/s/${SCRIPT_ID}/exec`;
+const STAGES=['발굴','검증','전략','실행','측정'];
+const ICONS={발굴:'🔍',검증:'🧪',전략:'🎯',실행:'⚙️',측정:'📊'};
+const COLS={발굴:'#2563eb',검증:'#0891b2',전략:'#d97706',실행:'#ea580c',측정:'#16a34a'};
+const ROLES=['PM','회계','Maker','콘텐츠','Growth','디자이너','커뮤니티','기획참여','미참여'];
 
-const STAGES = ['발굴','검증','전략','실행','측정'];
-const ICONS  = {발굴:'🔍',검증:'🧪',전략:'🎯',실행:'⚙️',측정:'📊'};
-const COLS   = {발굴:'#2563eb',검증:'#0891b2',전략:'#d97706',실행:'#ea580c',측정:'#16a34a'};
-const ROLES  = ['PM','회계','Maker','콘텐츠','Growth','디자이너','커뮤니티','기획참여','미참여'];
-const TODOS_DEF = {
-  발굴:['팀 전체 아이디어 수집 (기획참여 모두)','Why를 3번 물어보기','실제 문제인지 확인','PM이 방향 의사결정'],
-  검증:['고객/지역민 인터뷰 3명 이상','게릴라 테스트 실시','목업/샘플 제작','피드백 정리 및 패턴 도출'],
-  전략:['TAM/SAM/SOM 분석','경쟁 굿즈/브랜드 분석','위닝플랜 7가지 조건 충족','예산 계획 (회계 담당)'],
-  실행:['굿즈 제작 공정 확정 (Maker)','비주얼 시안 완성 (디자이너)','콘텐츠 제작 시작','채널별 홍보 계획 (Growth)'],
-  측정:['판매 전환율 추적 (Growth)','예산 대비 수익 정산 (회계)','콘텐츠 성과 분석','PMF 체크리스트 점검']
+// 단계별 워크시트 탭 정의
+const WS_TABS={
+  발굴:[
+    {id:'why3',icon:'❓',label:'Why ×3',hint:'문제의 근본 원인을 3번 "왜?"로 파고드는 도구입니다. 표면적 이유 너머의 진짜 문제를 발견해보세요.'},
+    {id:'idea',icon:'💡',label:'아이디어 수집',hint:'팀 전체가 자유롭게 아이디어를 올려두는 공간입니다. 비판 없이 먼저 많이 모아보세요.'},
+  ],
+  검증:[
+    {id:'interview',icon:'🎤',label:'인터뷰 가이드',hint:'고객/지역민 인터뷰를 위한 단계별 질문 가이드입니다. 단계를 따라가며 인터뷰 내용을 기록하세요.'},
+    {id:'feedback',icon:'📋',label:'피드백 정리',hint:'수집한 피드백을 좋아요/아쉬워요/아이디어/의문점으로 분류해 패턴을 찾아보세요.'},
+  ],
+  전략:[
+    {id:'winning',icon:'🏆',label:'위닝플랜 체크',hint:'프로젝트가 성공하기 위한 7가지 조건을 체크합니다. 모든 항목이 충족되어야 강한 전략입니다.'},
+    {id:'competitor',icon:'🔍',label:'경쟁자 분석',hint:'우리와 비슷한 것들을 4가지 유형으로 분류해보세요. 우리만의 차별점을 발견할 수 있습니다.'},
+  ],
+  실행:[
+    {id:'moscow',icon:'📌',label:'MoSCoW 우선순위',hint:'이번 프로젝트에서 할 것과 하지 않을 것을 명확히 나눕니다. "하지 않을 것"이 명확할수록 팀이 집중할 수 있습니다.'},
+  ],
+  측정:[
+    {id:'pmf',icon:'✅',label:'PMF 체크리스트',hint:'Product-Market Fit을 달성했는지 8가지 질문으로 체크합니다. 6개 이상이면 PMF에 가까워진 신호입니다.'},
+    {id:'result',icon:'📈',label:'성과 요약',hint:'이번 프로젝트의 성과, 배운 점, 다음 시즌에 개선할 점을 정리합니다.'},
+  ],
 };
-const AV_COLORS = [
+
+const TODOS_DEF={
+  발굴:['팀 전체 아이디어 수집 완료','Why ×3 질문 완료','실제 문제인지 확인','PM이 방향 의사결정'],
+  검증:['고객 인터뷰 3명 이상 진행','피드백 정리 완료','목업/샘플 제작','핵심 패턴 도출'],
+  전략:['위닝플랜 7가지 체크 완료','경쟁자 4유형 분석','예산 계획 수립 (회계)','로드맵 초안 완성'],
+  실행:['MoSCoW 우선순위 확정','굿즈 제작 공정 확정 (Maker)','비주얼 시안 완성 (디자이너)','채널별 홍보 계획 (Growth)'],
+  측정:['PMF 체크리스트 완료','판매/성과 데이터 수집','예산 대비 수익 정산 (회계)','다음 시즌 개선점 정리'],
+};
+const AV_COLORS=[
   {bg:'#dbeafe',c:'#1e40af'},{bg:'#fce7f3',c:'#9d174d'},
   {bg:'#dcfce7',c:'#14532d'},{bg:'#fef3c7',c:'#92400e'},
   {bg:'#ede9fe',c:'#4c1d95'},{bg:'#fee2e2',c:'#991b1b'},
-  {bg:'#cffafe',c:'#0e7490'},{bg:'#fef9c3',c:'#713f12'}
 ];
 
-let projects=[], activity=[], currentId=null;
+let projects=[],activity=[],currentId=null,currentWsTab=null;
 let members=[
   {id:'m1',name:'두두',type:'core'},
   {id:'m2',name:'무늬그린',type:'core'},
@@ -421,22 +521,18 @@ function saveLocal(){
   try{localStorage.setItem('pmloop-members',JSON.stringify(members));}catch(e){}
   try{localStorage.setItem('pmloop-activity',JSON.stringify(activity.slice(0,40)));}catch(e){}
 }
-
-function setSyncStatus(state,txt){
-  document.getElementById('sync-dot').className='sync-dot '+(state==='ok'?'ok':state==='err'?'err':'ing');
-  document.getElementById('sync-txt').textContent=txt;
+function setSyncStatus(s,t){
+  document.getElementById('sync-dot').className='sync-dot '+(s==='ok'?'ok':s==='err'?'err':'ing');
+  document.getElementById('sync-txt').textContent=t;
 }
-
 async function apiGet(){
   setSyncStatus('ing','동기화 중...');
   try{
     const r=await fetch(API,{redirect:'follow'});
     const data=JSON.parse(await r.text());
-    projects=data.map(p=>({...p,todos:safeJson(p.todos,[]),memberRoles:safeJson(p.memberRoles,{})}));
+    projects=data.map(p=>({...p,todos:safeJson(p.todos,[]),memberRoles:safeJson(p.memberRoles,{}),wsData:safeJson(p.wsData,{})}));
     setSyncStatus('ok','Sheets 연결됨');return true;
-  }catch(e){
-    setSyncStatus('err','연결 실패');toast('Google Sheets 연결 실패','err');return false;
-  }
+  }catch(e){setSyncStatus('err','연결 실패');toast('Google Sheets 연결 실패','err');return false;}
 }
 async function apiPost(action,project){
   try{
@@ -445,32 +541,25 @@ async function apiPost(action,project){
         ...project,
         todos:JSON.stringify(project.todos||[]),
         memberRoles:JSON.stringify(project.memberRoles||{}),
-        members:JSON.stringify(Object.keys(project.memberRoles||{}))
+        members:JSON.stringify(Object.keys(project.memberRoles||{})),
+        wsData:JSON.stringify(project.wsData||{})
       }})
     });return true;
   }catch(e){toast('저장 실패','err');return false;}
 }
 function safeJson(v,fb){try{return typeof v==='string'?JSON.parse(v):v||fb;}catch{return fb;}}
 
-async function loadProjects(){
-  showLoading('Google Sheets 동기화 중...');
-  await apiGet();hideLoading();renderAll();
-}
-
-function renderAll(){
-  renderStats();renderKanban();renderAnalytics();renderMembers();
-  document.getElementById('dash-sub').textContent=`총 ${projects.length}개 프로젝트 · ${members.length}명`;
-}
+async function loadProjects(){showLoading('Google Sheets 동기화 중...');await apiGet();hideLoading();renderAll();}
+function renderAll(){renderStats();renderKanban();renderAnalytics();renderMembers();
+  document.getElementById('dash-sub').textContent=`총 ${projects.length}개 프로젝트 · ${members.length}명`;}
 
 function renderStats(){
-  const c={};STAGES.forEach(s=>c[s]=0);
-  projects.forEach(p=>c[p.stage]=(c[p.stage]||0)+1);
+  const c={};STAGES.forEach(s=>c[s]=0);projects.forEach(p=>c[p.stage]=(c[p.stage]||0)+1);
   document.getElementById('stats').innerHTML=`
     <div class="stat"><div class="stat-l">전체</div><div class="stat-n">${projects.length}</div><div class="stat-s">프로젝트</div></div>
     <div class="stat"><div class="stat-l">발굴중</div><div class="stat-n" style="color:${COLS['발굴']}">${c['발굴']||0}</div><div class="stat-s">아이디어</div></div>
     <div class="stat"><div class="stat-l">실행중</div><div class="stat-n" style="color:${COLS['실행']}">${c['실행']||0}</div><div class="stat-s">스프린트</div></div>
-    <div class="stat"><div class="stat-l">측정중</div><div class="stat-n" style="color:${COLS['측정']}">${c['측정']||0}</div><div class="stat-s">PMF 추적</div></div>`;
-}
+    <div class="stat"><div class="stat-l">측정중</div><div class="stat-n" style="color:${COLS['측정']}">${c['측정']||0}</div><div class="stat-s">PMF 추적</div></div>`;}
 
 function renderKanban(){
   const kb=document.getElementById('kanban');kb.innerHTML='';
@@ -480,152 +569,356 @@ function renderKanban(){
     const cards=ps.map(p=>{
       const prog=getProgress(p);
       const roles=p.memberRoles||{};
-      const memberBadges=members.filter(m=>roles[m.id]&&roles[m.id]!=='미참여').slice(0,5).map(m=>{
+      const mb=members.filter(m=>roles[m.id]&&roles[m.id]!=='미참여').slice(0,4).map(m=>{
         const av=getAv(m.id);
-        return `<div style="display:flex;align-items:center;gap:3px">
-          <div class="avatar-xs" style="background:${av.bg};color:${av.c}" title="${m.name}">${m.name[0]}</div>
-          <span class="pcard-role-tag">${roles[m.id]}</span>
-        </div>`;
+        return `<div style="display:flex;align-items:center;gap:2px"><div class="avatar-xs" style="background:${av.bg};color:${av.c}">${m.name[0]}</div><span class="pcard-role-tag">${roles[m.id]}</span></div>`;
       }).join('');
+      const tabs=WS_TABS[s]||[];
+      const toolHint=tabs.length?`<div class="pcard-tool-hint">🛠 ${tabs.map(t=>t.label).join(' · ')} 워크시트 있음</div>`:'';
       return `<div class="pcard" onclick="openDetail('${p.id}')">
         <div class="pcard-title">${p.title}</div>
-        <div class="pcard-tags">
-          <span class="tag tag-${s}">${ICONS[s]} ${s}</span>
-          <span class="tag tag-${p.priority}">${p.priority==='high'?'높음':p.priority==='mid'?'중간':'낮음'}</span>
-        </div>
-        ${memberBadges?`<div class="pcard-members">${memberBadges}</div>`:''}
+        <div class="pcard-tags"><span class="tag tag-${s}">${ICONS[s]} ${s}</span><span class="tag tag-${p.priority}">${p.priority==='high'?'높음':p.priority==='mid'?'중간':'낮음'}</span></div>
+        ${mb?`<div class="pcard-members">${mb}</div>`:''}
         <div class="prog-bar"><div class="prog-fill" style="width:${prog}%;background:${COLS[s]}"></div></div>
         <div class="prog-lbl">${prog}% 완료</div>
+        ${toolHint}
       </div>`;
     }).join('');
-    col.innerHTML=`
-      <div class="col-hd">
-        <div class="col-stripe" style="background:${COLS[s]}"></div>
-        <div class="col-name">${ICONS[s]} ${s}</div>
-        <div class="col-cnt">${ps.length}</div>
-      </div>
+    col.innerHTML=`<div class="col-hd"><div class="col-stripe" style="background:${COLS[s]}"></div><div class="col-name">${ICONS[s]} ${s}</div><div class="col-cnt">${ps.length}</div></div>
       <div class="col-body">${cards||'<div class="empty"><div class="empty-ic">○</div>없음</div>'}</div>
       <div class="col-foot"><button class="col-add-btn" onclick="openNew('${s}')">+ 추가</button></div>`;
     kb.appendChild(col);
   });
 }
 
-function getProgress(p){
-  if(!p.todos||!p.todos.length)return 0;
-  return Math.round(p.todos.filter(t=>t.done).length/p.todos.length*100);
-}
-function getAv(id){
-  const idx=[...id].reduce((a,c)=>a+c.charCodeAt(0),0)%AV_COLORS.length;
-  return AV_COLORS[idx];
-}
+function getProgress(p){if(!p.todos||!p.todos.length)return 0;return Math.round(p.todos.filter(t=>t.done).length/p.todos.length*100);}
+function getAv(id){const idx=[...id].reduce((a,c)=>a+c.charCodeAt(0),0)%AV_COLORS.length;return AV_COLORS[idx];}
 
 function renderAnalytics(){
-  const c={};STAGES.forEach(s=>c[s]=0);
-  projects.forEach(p=>c[p.stage]=(c[p.stage]||0)+1);
+  const c={};STAGES.forEach(s=>c[s]=0);projects.forEach(p=>c[p.stage]=(c[p.stage]||0)+1);
   const max=Math.max(...Object.values(c),1);
-
-  document.getElementById('funnel').innerHTML=`
-    <div class="an-sub">단계별 현황</div>
-    ${STAGES.map(s=>`
-      <div class="funnel-row">
-        <div class="f-lbl" style="color:${COLS[s]}">${s}</div>
-        <div class="f-wrap"><div class="f-bar" style="width:${c[s]/max*100}%;background:${COLS[s]}22;color:${COLS[s]};border-right:2px solid ${COLS[s]}">${c[s]>0?c[s]+'개':''}</div></div>
-        <div class="f-num" style="color:${COLS[s]}">${c[s]||0}</div>
-      </div>`).join('')}
-    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted)">
-      발굴→측정 전환율: ${projects.length?Math.round((c['측정']||0)/projects.length*100):0}%
-      &nbsp;·&nbsp; 전체 완료율: ${projects.length?Math.round(projects.reduce((a,p)=>a+getProgress(p),0)/projects.length):0}%
-    </div>`;
-
-  // 팀원별 참여 현황
+  document.getElementById('funnel').innerHTML=`<div class="an-sub">단계별 현황</div>
+    ${STAGES.map(s=>`<div class="funnel-row"><div class="f-lbl" style="color:${COLS[s]}">${s}</div>
+      <div class="f-wrap"><div class="f-bar" style="width:${c[s]/max*100}%;background:${COLS[s]}22;color:${COLS[s]};border-right:2px solid ${COLS[s]}">${c[s]>0?c[s]+'개':''}</div></div>
+      <div class="f-num" style="color:${COLS[s]}">${c[s]||0}</div></div>`).join('')}
+    <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted)">발굴→측정 전환율: ${projects.length?Math.round((c['측정']||0)/projects.length*100):0}%</div>`;
   const mc={};members.forEach(m=>mc[m.id]=0);
-  projects.forEach(p=>{
-    const roles=p.memberRoles||{};
-    members.forEach(m=>{if(roles[m.id]&&roles[m.id]!=='미참여')mc[m.id]++;});
-  });
+  projects.forEach(p=>{const roles=p.memberRoles||{};members.forEach(m=>{if(roles[m.id]&&roles[m.id]!=='미참여')mc[m.id]++;});});
   const mmax=Math.max(...Object.values(mc),1);
-  document.getElementById('member-chart').innerHTML=`
-    <div class="an-sub">팀원별 참여 프로젝트</div>
-    ${members.map(m=>{
-      const av=getAv(m.id);
-      return `<div class="member-bar-row">
-        <div class="mb-name">${m.name}</div>
-        <div class="mb-bar-wrap"><div class="mb-bar" style="width:${mc[m.id]/mmax*100}%;background:${av.bg};color:${av.c}">${mc[m.id]>0?mc[m.id]+'개':''}</div></div>
-        <div class="mb-num" style="color:${av.c}">${mc[m.id]||0}</div>
-      </div>`;
-    }).join('')}`;
-
-  document.getElementById('act-list').innerHTML=`
-    <div class="an-sub">최근 활동</div>
-    ${activity.length?activity.slice(0,10).map(a=>`
-      <div class="act-item">
-        <div class="act-dot" style="background:${COLS[a.stage]||'#aaa'}"></div>
-        <div class="act-txt">${a.text}</div>
-        <div class="act-time">${timeAgo(a.time)}</div>
-      </div>`).join(''):'<div class="empty"><div class="empty-ic">⏳</div>활동 없음</div>'}`;
+  document.getElementById('member-chart').innerHTML=`<div class="an-sub">팀원별 참여 프로젝트</div>
+    ${members.map(m=>{const av=getAv(m.id);return `<div class="mb-row"><div class="mb-name">${m.name}</div>
+      <div class="mb-wrap"><div class="mb-bar" style="width:${mc[m.id]/mmax*100}%;background:${av.bg};color:${av.c}">${mc[m.id]>0?mc[m.id]+'개':''}</div></div>
+      <div class="mb-num" style="color:${av.c}">${mc[m.id]||0}</div></div>`;}).join('')}`;
+  document.getElementById('act-list').innerHTML=`<div class="an-sub">최근 활동</div>
+    ${activity.length?activity.slice(0,10).map(a=>`<div class="act-item"><div class="act-dot" style="background:${COLS[a.stage]||'#aaa'}"></div><div class="act-txt">${a.text}</div><div class="act-time">${timeAgo(a.time)}</div></div>`).join(''):'<div class="empty"><div class="empty-ic">⏳</div>활동 없음</div>'}`;
 }
 
 function renderMembers(){
   const mc={};members.forEach(m=>mc[m.id]=0);
-  projects.forEach(p=>{
-    const roles=p.memberRoles||{};
-    members.forEach(m=>{if(roles[m.id]&&roles[m.id]!=='미참여')mc[m.id]++;});
-  });
+  projects.forEach(p=>{const roles=p.memberRoles||{};members.forEach(m=>{if(roles[m.id]&&roles[m.id]!=='미참여')mc[m.id]++;});});
   document.getElementById('mem-list').innerHTML=members.map(m=>{
     const av=getAv(m.id);
-    const isGuest=m.type==='guest';
-    return `<div class="mem-card">
-      <div class="av-lg" style="background:${av.bg};color:${av.c}">${m.name[0]}</div>
-      <div>
-        <div class="mi-name">${m.name}${isGuest?' <span class="tag" style="background:#f3f4f6;color:#6b7280;font-size:9px">객원</span>':''}</div>
-        <div class="mi-role" style="color:var(--muted);font-size:11px">역할은 프로젝트별로 배분됩니다</div>
-      </div>
-      <div class="ms-right">
-        <div class="ms-cnt" style="color:${av.c}">${mc[m.id]||0}</div>
-        <div class="ms-lbl">참여 프로젝트</div>
-      </div>
-      ${isGuest?`<button class="btn btn-sm btn-danger" style="margin-left:8px" onclick="removeMember('${m.id}')">제거</button>`:''}
+    return `<div class="mem-card"><div class="av-lg" style="background:${av.bg};color:${av.c}">${m.name[0]}</div>
+      <div><div class="mi-name">${m.name}${m.type==='guest'?' <span class="tag" style="background:#f3f4f6;color:#6b7280;font-size:9px">객원</span>':''}</div>
+        <div class="mi-role">역할은 프로젝트별로 배분됩니다</div></div>
+      <div class="ms-right"><div class="ms-cnt" style="color:${av.c}">${mc[m.id]||0}</div><div class="ms-lbl">참여 프로젝트</div></div>
+      ${m.type==='guest'?`<button class="btn btn-sm btn-danger" style="margin-left:8px" onclick="removeMember('${m.id}')">제거</button>`:''}
     </div>`;
   }).join('');
 }
 
-// 역할 배분 UI
-function roleAssignHtml(memberRoles={}){
-  return members.map(m=>{
-    const av=getAv(m.id);
-    const cur=memberRoles[m.id]||'미참여';
-    return `<div class="role-assign-item">
-      <div class="ra-avatar" style="background:${av.bg};color:${av.c}">${m.name[0]}</div>
-      <div class="ra-name">${m.name}</div>
-      <select class="ra-select" id="role-${m.id}">
-        ${ROLES.map(r=>`<option value="${r}" ${cur===r?'selected':''}>${r}</option>`).join('')}
-      </select>
-    </div>`;
-  }).join('');
-}
-function collectRoles(){
-  const roles={};
-  members.forEach(m=>{
-    const el=document.getElementById('role-'+m.id);
-    if(el)roles[m.id]=el.value;
-  });
-  return roles;
+/* ── Worksheet ── */
+function openWorksheet(id){
+  currentId=id;
+  const p=projects.find(x=>x.id==id);if(!p)return;
+  closeMod('m-det');
+
+  document.getElementById('ws-proj-name').textContent=p.title;
+  const badge=document.getElementById('ws-stage-badge');
+  badge.textContent=`${ICONS[p.stage]} ${p.stage}`;
+  badge.style.background=COLS[p.stage]+'22';
+  badge.style.color=COLS[p.stage];
+
+  const tabs=WS_TABS[p.stage]||[];
+  const tabsEl=document.getElementById('ws-tabs');
+  tabsEl.innerHTML=tabs.map((t,i)=>`<button class="ws-tab${i===0?' on':''}" onclick="switchWsTab(this,'ws-panel-${t.id}')">${t.icon} ${t.label}</button>`).join('');
+
+  const content=document.getElementById('ws-content');
+  const wd=p.wsData||{};
+  content.innerHTML=tabs.map((t,i)=>`<div class="ws-panel${i===0?' on':''}" id="ws-panel-${t.id}">${buildWsPanel(t,wd,p)}</div>`).join('');
+
+  currentWsTab=tabs[0]?.id||null;
+  goPage('worksheet');
 }
 
+function switchWsTab(btn,panelId){
+  btn.closest('.ws-wrap').querySelectorAll('.ws-tab').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.ws-panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById(panelId)?.classList.add('on');
+  currentWsTab=panelId.replace('ws-panel-','');
+}
+
+function buildWsPanel(tab,wd,p){
+  const d=wd[tab.id]||{};
+  const hint=`<div class="tool-tip">💡 ${tab.hint}</div>`;
+  switch(tab.id){
+    case 'why3': return hint+why3HTML(d,p);
+    case 'idea': return hint+ideaHTML(d);
+    case 'interview': return hint+interviewHTML(d);
+    case 'feedback': return hint+feedbackHTML(d);
+    case 'winning': return hint+winningHTML(d);
+    case 'competitor': return hint+competitorHTML(d);
+    case 'moscow': return hint+moscowHTML(d);
+    case 'pmf': return hint+pmfHTML(d);
+    case 'result': return hint+resultHTML(d);
+    default:return '';
+  }
+}
+
+function v(id){const el=document.getElementById(id);return el?el.value:'';}
+function vn(id){return parseInt(document.getElementById(id)?.value)||0;}
+
+function why3HTML(d,p){return `<div class="tool-card">
+  <div class="tool-card-hd"><div class="tool-card-title">Why × 3</div><div class="tool-card-desc">같은 질문을 3번 반복하면 표면적 이유 너머의 진짜 문제를 발견할 수 있습니다.</div></div>
+  <div class="why-chain">
+    <div class="why-step"><div class="why-step-hd"><div class="why-num" style="background:var(--s1b);color:var(--s1t)">1</div><div class="why-q">왜 이 프로젝트가 필요한가요?</div></div>
+      <textarea class="why-textarea" id="w1" placeholder="처음 떠오르는 이유를 자유롭게 적어보세요">${d.w1||p.why||''}</textarea></div>
+    <div class="why-arrow">↓</div>
+    <div class="why-step"><div class="why-step-hd"><div class="why-num" style="background:var(--s1b);color:var(--s1t)">2</div><div class="why-q">왜 그것이 문제인가요? (더 깊게)</div></div>
+      <textarea class="why-textarea" id="w2" placeholder="첫 번째 답변을 보고, 왜 그게 문제인지 파고들어보세요">${d.w2||''}</textarea></div>
+    <div class="why-arrow">↓</div>
+    <div class="why-step"><div class="why-step-hd"><div class="why-num" style="background:var(--s1b);color:var(--s1t)">3</div><div class="why-q">왜 지금 이것을 해결해야 하나요?</div></div>
+      <textarea class="why-textarea" id="w3" placeholder="근본 원인과 시급성을 생각해보세요">${d.w3||''}</textarea></div>
+    <div class="why-arrow">↓</div>
+    <div class="why-result"><div class="why-result-lbl">💡 핵심 문제 정의 (한 문장으로)</div>
+      <textarea class="why-textarea" id="w-insight" style="background:transparent;border-color:rgba(37,99,235,.3);color:var(--s1t)" placeholder="세 가지 Why를 종합해 진짜 문제를 한 문장으로 써보세요">${d.insight||''}</textarea></div>
+  </div>
+  <button class="ws-save-btn" onclick="saveWsTool('why3',{w1:v('w1'),w2:v('w2'),w3:v('w3'),insight:v('w-insight')})">💾 저장하기</button>
+</div>`;}
+
+function ideaHTML(d){
+  const colors=[
+    {bg:'#fef9c3',border:'#fde68a',lbl:'#92400e'},
+    {bg:'#dbeafe',border:'#bfdbfe',lbl:'#1e40af'},
+    {bg:'#dcfce7',border:'#bbf7d0',lbl:'#14532d'},
+    {bg:'#ffedd5',border:'#fed7aa',lbl:'#9a3412'},
+  ];
+  const slots=['아이디어 1','아이디어 2','아이디어 3','아이디어 4'];
+  return `<div class="tool-card">
+  <div class="tool-card-hd"><div class="tool-card-title">아이디어 수집판</div><div class="tool-card-desc">팀원 모두가 자유롭게 아이디어를 올리는 공간입니다. 비판 없이, 양으로 먼저 채워보세요!</div></div>
+  <div class="idea-board">${slots.map((s,i)=>`
+    <div class="idea-sticky" style="background:${colors[i].bg};border-color:${colors[i].border}">
+      <div class="idea-sticky-lbl" style="color:${colors[i].lbl}">${s}</div>
+      <textarea class="idea-textarea" id="idea-${i}" placeholder="자유롭게 써보세요...">${d['i'+i]||''}</textarea>
+    </div>`).join('')}</div>
+  <div class="result-card" style="margin-top:12px"><div class="result-label">아이디어 추가 (자유 기입)</div>
+    <textarea class="result-ta" id="idea-extra" placeholder="5번, 6번... 계속 추가해도 됩니다">${d.extra||''}</textarea></div>
+  <button class="ws-save-btn" onclick="saveWsTool('idea',{i0:v('idea-0'),i1:v('idea-1'),i2:v('idea-2'),i3:v('idea-3'),extra:v('idea-extra')})">💾 저장하기</button>
+</div>`;}
+
+function interviewHTML(d){
+  const steps=[
+    {c:{bg:'#dbeafe',tc:'#1e40af'},title:'① 라포 형성',time:'3분',qs:['편하게 자기소개 부탁드려요','요즘 어떻게 지내세요?']},
+    {c:{bg:'#dcfce7',tc:'#14532d'},title:'② 현재 상황 파악',time:'10분',qs:['지금 이 주제와 관련해서 어떻게 하고 계세요?','가장 불편하거나 아쉬운 점이 있다면요?']},
+    {c:{bg:'#fef3c7',tc:'#92400e'},title:'③ 불편함 탐색',time:'10분',qs:['그 문제가 생겼을 때 어떻게 해결하셨나요?','가장 자주 겪는 어려움은 무엇인가요?']},
+    {c:{bg:'#ffedd5',tc:'#9a3412'},title:'④ 아이디어 검증',time:'7분',qs:['만약 이런 굿즈/서비스가 있다면 써보실 것 같으세요?','어떤 점이 있으면 더 좋을 것 같으세요?']},
+  ];
+  return `<div class="tool-card">
+  <div class="tool-card-hd"><div class="tool-card-title">고객 인터뷰 가이드</div><div class="tool-card-desc">단계를 따라가며 인터뷰를 진행하고, 각 단계에서 들은 내용을 메모하세요.</div></div>
+  <div class="interview-flow">${steps.map((s,i)=>`
+    <div class="iflow-step">
+      <div class="iflow-hd"><div class="iflow-num" style="background:${s.c.bg};color:${s.c.tc}">${i+1}</div>
+        <div class="iflow-title">${s.title}</div><div class="iflow-time">${s.time}</div></div>
+      <div class="iflow-qs">${s.qs.map(q=>`<div class="iflow-q">"${q}"</div>`).join('')}</div>
+      <textarea class="iflow-note" id="iv-${i}" placeholder="인터뷰 내용 메모...">${d['s'+i]||''}</textarea>
+    </div>`).join('')}
+    <div class="result-card"><div class="result-label">💡 핵심 발견 요약</div>
+      <textarea class="result-ta" id="iv-summary" placeholder="인터뷰에서 가장 중요하게 발견한 것을 정리해보세요">${d.summary||''}</textarea></div>
+  </div>
+  <button class="ws-save-btn" onclick="saveWsTool('interview',{s0:v('iv-0'),s1:v('iv-1'),s2:v('iv-2'),s3:v('iv-3'),summary:v('iv-summary')})">💾 저장하기</button>
+</div>`;}
+
+function feedbackHTML(d){
+  const cats=[
+    {key:'good',label:'👍 좋아요',desc:'고객이 좋다고 한 것',bg:'#dcfce7',border:'#bbf7d0',lbl:'#14532d'},
+    {key:'bad',label:'👎 아쉬워요',desc:'고객이 불편하다고 한 것',bg:'#fee2e2',border:'#fca5a5',lbl:'#991b1b'},
+    {key:'idea',label:'💡 아이디어',desc:'고객이 원하는 것',bg:'#fef3c7',border:'#fde68a',lbl:'#92400e'},
+    {key:'question',label:'❓ 의문점',desc:'더 알아봐야 할 것',bg:'#dbeafe',border:'#bfdbfe',lbl:'#1e40af'},
+  ];
+  return `<div class="tool-card">
+  <div class="tool-card-hd"><div class="tool-card-title">피드백 정리판</div><div class="tool-card-desc">수집한 피드백을 4가지 항목으로 분류해 패턴을 찾아보세요.</div></div>
+  <div class="feedback-grid">${cats.map(c=>`
+    <div class="fb-card" style="background:${c.bg};border:1.5px solid ${c.border}">
+      <div class="fb-lbl" style="color:${c.lbl}">${c.label}<span style="font-weight:400;margin-left:4px;font-size:10px;text-transform:none">${c.desc}</span></div>
+      <textarea class="fb-textarea" id="fb-${c.key}" placeholder="하나씩 적어보세요...">${d[c.key]||''}</textarea>
+    </div>`).join('')}</div>
+  <div class="result-card" style="margin-top:12px"><div class="result-label">📌 핵심 패턴 (가장 많이 나온 이야기)</div>
+    <textarea class="result-ta" id="fb-pattern" placeholder="반복되는 키워드나 공통된 이야기를 정리해보세요">${d.pattern||''}</textarea></div>
+  <button class="ws-save-btn" onclick="saveWsTool('feedback',{good:v('fb-good'),bad:v('fb-bad'),idea:v('fb-idea'),question:v('fb-question'),pattern:v('fb-pattern')})">💾 저장하기</button>
+</div>`;}
+
+function winningHTML(d){
+  const items=[
+    {title:'명확한 목표가 있다',desc:'이 프로젝트로 무엇을 달성하고 싶은지 팀 모두가 한 문장으로 말할 수 있다'},
+    {title:'진짜 고객 문제를 해결한다',desc:'Why×3 인터뷰를 통해 실제 불편함이 검증되었다'},
+    {title:'우리만의 차별점이 있다',desc:'비슷한 것들과 비교했을 때 우리가 더 잘할 수 있는 이유가 있다'},
+    {title:'팀이 실행할 수 있다',desc:'예산·시간·인력이 현실적으로 가능한 범위 안에 있다'},
+    {title:'"하지 않을 것"을 정했다',desc:'이번에 하지 않을 것을 명확히 하여 팀이 집중할 수 있다'},
+    {title:'성공 여부를 측정할 수 있다',desc:'프로젝트가 잘 됐는지 아닌지를 판단할 기준이 있다'},
+    {title:'팀 모두가 납득한다',desc:'PM의 결정에 대해 팀원들이 이유를 이해하고 동의한다'},
+  ];
+  const stored=safeJson(localStorage.getItem(`winning-${currentId}`),[]);
+  return `<div class="tool-card">
+  <div class="tool-card-hd"><div class="tool-card-title">위닝플랜 체크리스트</div><div class="tool-card-desc">7가지 조건을 모두 충족했을 때 실행할 준비가 된 것입니다. 체크되지 않은 항목이 있다면 먼저 채워보세요.</div></div>
+  <div class="winning-list">${items.map((it,i)=>`
+    <div class="win-item${stored.includes(i)?' checked':''}" onclick="toggleWin(this,${i})">
+      <div class="win-chk"></div>
+      <div class="win-content"><div class="win-title">${it.title}</div><div class="win-desc">${it.desc}</div></div>
+    </div>`).join('')}
+    <div class="win-score"><div class="win-score-lbl">달성 현황</div><div class="win-score-val" id="win-score">${stored.length}/7</div></div>
+  </div>
+  <div class="result-card" style="margin-top:12px"><div class="result-label">📝 전략 메모 (미충족 항목 해결 방안)</div>
+    <textarea class="result-ta" id="win-note" placeholder="아직 채우지 못한 조건을 어떻게 해결할지 적어보세요">${d.note||''}</textarea></div>
+  <button class="ws-save-btn" onclick="saveWinning()">💾 저장하기</button>
+</div>`;}
+
+function toggleWin(el,idx){
+  el.classList.toggle('checked');
+  const all=document.querySelectorAll('.win-item');
+  const cnt=[...all].filter(e=>e.classList.contains('checked')).length;
+  document.getElementById('win-score').textContent=cnt+'/7';
+}
+
+function saveWinning(){
+  const checks=[];
+  document.querySelectorAll('.win-item').forEach((el,i)=>{if(el.classList.contains('checked'))checks.push(i);});
+  localStorage.setItem(`winning-${currentId}`,JSON.stringify(checks));
+  saveWsTool('winning',{note:v('win-note'),checks:JSON.stringify(checks)});
+}
+
+function competitorHTML(d){
+  const types=[
+    {key:'direct',label:'직접 경쟁',desc:'같은 고객에게 비슷한 것을 파는 곳',bg:'#fee2e2',border:'#fca5a5',lbl:'#991b1b'},
+    {key:'indirect',label:'간접 경쟁',desc:'다른 방식으로 같은 욕구를 채워주는 것',bg:'#fef3c7',border:'#fde68a',lbl:'#92400e'},
+    {key:'replace',label:'대체재',desc:'우리 없이도 문제를 해결할 수 있는 방법',bg:'#dbeafe',border:'#bfdbfe',lbl:'#1e40af'},
+    {key:'future',label:'잠재 경쟁',desc:'앞으로 이 시장에 들어올 수 있는 곳',bg:'#ede9fe',border:'#ddd6fe',lbl:'#4c1d95'},
+  ];
+  return `<div class="tool-card">
+  <div class="tool-card-hd"><div class="tool-card-title">경쟁자 분석</div><div class="tool-card-desc">우리 프로젝트와 비슷한 것들을 4가지로 나눠보세요. 차별점이 자연스럽게 보이기 시작합니다.</div></div>
+  <div class="comp-grid">${types.map(t=>`
+    <div class="comp-card" style="background:${t.bg};border-color:${t.border}">
+      <div class="comp-badge" style="background:rgba(255,255,255,.5);color:${t.lbl}">${t.label}</div>
+      <div class="comp-desc" style="color:${t.lbl};opacity:.8">${t.desc}</div>
+      <textarea class="comp-ta" id="comp-${t.key}" placeholder="이름, 특징...">${d[t.key]||''}</textarea>
+    </div>`).join('')}</div>
+  <div class="result-card" style="margin-top:12px"><div class="result-label">⭐ 우리의 차별점</div>
+    <textarea class="result-ta" id="comp-diff" placeholder="위에서 분석한 것들과 비교했을 때, 우리만이 줄 수 있는 것은 무엇인가요?">${d.diff||''}</textarea></div>
+  <button class="ws-save-btn" onclick="saveWsTool('competitor',{direct:v('comp-direct'),indirect:v('comp-indirect'),replace:v('comp-replace'),future:v('comp-future'),diff:v('comp-diff')})">💾 저장하기</button>
+</div>`;}
+
+function moscowHTML(d){
+  const cats=[
+    {key:'must',label:'Must — 반드시 한다',sub:'없으면 프로젝트 자체가 안 됨',bg:'#fee2e2',border:'#fca5a5',lbl:'#991b1b'},
+    {key:'should',label:'Should — 하면 좋다',sub:'있으면 훨씬 좋지만 없어도 됨',bg:'#fef3c7',border:'#fde68a',lbl:'#92400e'},
+    {key:'could',label:'Could — 여유 있으면',sub:'시간·예산이 남으면 추가',bg:'#dcfce7',border:'#bbf7d0',lbl:'#14532d'},
+    {key:'wont',label:"Won't — 이번엔 안 한다",sub:'범위 밖으로 명확히 제외',bg:'#f3f4f6',border:'#e5e7eb',lbl:'#6b7280'},
+  ];
+  return `<div class="tool-card">
+  <div class="tool-card-hd"><div class="tool-card-title">MoSCoW 우선순위</div><div class="tool-card-desc">할 것과 하지 않을 것을 명확히 나누면 팀이 같은 방향을 볼 수 있습니다. "Won't"가 가장 중요합니다!</div></div>
+  <div class="moscow-grid">${cats.map(c=>`
+    <div class="moscow-card" style="background:${c.bg};border-color:${c.border}">
+      <div class="moscow-lbl" style="color:${c.lbl}">${c.label}</div>
+      <div class="moscow-sub" style="color:${c.lbl}">${c.sub}</div>
+      <textarea class="moscow-ta" id="mos-${c.key}" placeholder="구체적으로 나열하세요...">${d[c.key]||''}</textarea>
+    </div>`).join('')}</div>
+  <button class="ws-save-btn" onclick="saveWsTool('moscow',{must:v('mos-must'),should:v('mos-should'),could:v('mos-could'),wont:v('mos-wont')})">💾 저장하기</button>
+</div>`;}
+
+function pmfHTML(d){
+  const items=[
+    '실제 고객이 돈을 내고 구매했다',
+    '같은 고객이 재구매하거나 다시 참여했다',
+    '고객이 주변에 자발적으로 추천했다',
+    '이 굿즈/프로젝트가 없어지면 아쉽다는 피드백을 받았다',
+    '누구에게 파는지(핵심 고객)를 명확히 말할 수 있다',
+    '다음 시즌에도 하고 싶다는 팀의 의지가 있다',
+    '고객의 말로 우리 굿즈의 가치를 설명할 수 있다',
+    '지속할 수 있을 만큼 수익 또는 임팩트가 나왔다',
+  ];
+  const stored=safeJson(localStorage.getItem(`pmf-${currentId}`),[]);
+  return `<div class="tool-card">
+  <div class="tool-card-hd"><div class="tool-card-title">PMF 체크리스트</div><div class="tool-card-desc">Product-Market Fit — 우리가 만든 것이 시장(고객)에 잘 맞는지 8가지 질문으로 확인합니다. <strong>6개 이상이면 좋은 신호!</strong></div></div>
+  <div class="pmf-list">${items.map((it,i)=>`
+    <div class="pmf-item${stored.includes(i)?' checked':''}" onclick="togglePMF(this,${i})">
+      <div class="pmf-chk"></div><div class="pmf-txt">${it}</div>
+    </div>`).join('')}
+    <div class="pmf-score"><div class="pmf-score-lbl">PMF 달성도</div><div class="pmf-score-val" id="pmf-score">${stored.length}/8</div></div>
+  </div>
+  <div class="result-card" style="margin-top:12px"><div class="result-label">📝 종합 메모</div>
+    <textarea class="result-ta" id="pmf-note" placeholder="현재 PMF 상태와 다음 단계에서 개선할 점을 적어보세요">${d.note||''}</textarea></div>
+  <button class="ws-save-btn" onclick="savePMF()">💾 저장하기</button>
+</div>`;}
+
+function togglePMF(el,idx){
+  el.classList.toggle('checked');
+  const cnt=document.querySelectorAll('.pmf-item.checked').length;
+  document.getElementById('pmf-score').textContent=cnt+'/8';
+}
+function savePMF(){
+  const checks=[];
+  document.querySelectorAll('.pmf-item').forEach((el,i)=>{if(el.classList.contains('checked'))checks.push(i);});
+  localStorage.setItem(`pmf-${currentId}`,JSON.stringify(checks));
+  saveWsTool('pmf',{note:v('pmf-note'),checks:JSON.stringify(checks)});
+}
+
+function resultHTML(d){return `<div class="tool-card">
+  <div class="tool-card-hd"><div class="tool-card-title">프로젝트 성과 요약</div><div class="tool-card-desc">이번 프로젝트에서 무엇을 얻었는지 팀과 함께 정리해보세요. 다음 시즌의 출발점이 됩니다.</div></div>
+  <div class="result-card"><div class="result-label">🎯 목표 대비 성과</div>
+    <textarea class="result-ta" id="res-achieve" placeholder="처음 목표와 비교해 어떤 결과가 나왔나요?">${d.achieve||''}</textarea></div>
+  <div class="result-card"><div class="result-label">✨ 잘 된 것 (Keep)</div>
+    <textarea class="result-ta" id="res-keep" placeholder="다음에도 이렇게 하면 좋을 것들">${d.keep||''}</textarea></div>
+  <div class="result-card"><div class="result-label">🔧 개선할 것 (Improve)</div>
+    <textarea class="result-ta" id="res-improve" placeholder="다음 시즌에는 이렇게 바꿔보자는 것들">${d.improve||''}</textarea></div>
+  <div class="result-card"><div class="result-label">🚀 다음 시즌 아이디어</div>
+    <textarea class="result-ta" id="res-next" placeholder="이번 경험을 바탕으로 다음에 해보고 싶은 것들">${d.next||''}</textarea></div>
+  <button class="ws-save-btn" onclick="saveWsTool('result',{achieve:v('res-achieve'),keep:v('res-keep'),improve:v('res-improve'),next:v('res-next')})">💾 저장하기</button>
+</div>`;}
+
+function saveWsTool(toolId,data){
+  const p=projects.find(x=>x.id==currentId);if(!p)return;
+  if(!p.wsData)p.wsData={};
+  p.wsData[toolId]=data;
+  activity.unshift({text:`"${p.title}" ${toolId} 워크시트 저장`,stage:p.stage,time:Date.now()});
+  saveLocal();toast('✓ 저장되었습니다!');
+}
+
+async function saveWorksheet(){
+  const p=projects.find(x=>x.id==currentId);if(!p)return;
+  showLoading('Sheets에 저장 중...');
+  const ok=await apiPost('update',p);
+  if(ok){saveLocal();toast('✓ Sheets에 저장되었습니다!');}
+  hideLoading();
+}
+
+/* ── Navigation ── */
 function goPage(id){
-  document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('on',['dashboard','analytics','members'][i]===id));
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
-  document.getElementById('pg-'+id).classList.add('on');
+  ['dashboard','worksheet','analytics','members'].forEach(pg=>{
+    document.getElementById('pg-'+pg).classList.toggle('on',pg===id);
+  });
+  ['dashboard','analytics','members'].forEach((pg,i)=>{
+    document.getElementById('nav-'+pg)?.classList.toggle('on',pg===id);
+  });
 }
 function openMod(id){document.getElementById(id).classList.add('on');}
 function closeMod(id){document.getElementById(id).classList.remove('on');}
 function closeBanner(id){const el=document.getElementById(id);if(el)el.style.display='none';}
-function showLoading(txt){document.getElementById('loading-txt').textContent=txt;document.getElementById('loading').classList.add('on');}
+function showLoading(t){document.getElementById('loading-txt').textContent=t;document.getElementById('loading').classList.add('on');}
 function hideLoading(){document.getElementById('loading').classList.remove('on');}
 function toast(msg,type='ok'){
-  const el=document.getElementById('toast');
-  el.textContent=msg;el.className='toast '+(type==='err'?'err':'ok');
-  el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);
+  const el=document.getElementById('toast');el.textContent=msg;
+  el.className='toast '+(type==='err'?'err':'ok');el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),3000);
 }
 function timeAgo(ts){
   const d=Date.now()-ts;
@@ -633,28 +926,35 @@ function timeAgo(ts){
   if(d<86400000)return Math.floor(d/3600000)+'시간 전';return Math.floor(d/86400000)+'일 전';
 }
 
+/* ── Role assign ── */
+function roleAssignHtml(memberRoles={}){
+  return members.map(m=>{
+    const av=getAv(m.id);const cur=memberRoles[m.id]||'미참여';
+    return `<div class="role-assign-item">
+      <div class="ra-avatar" style="background:${av.bg};color:${av.c}">${m.name[0]}</div>
+      <div class="ra-name">${m.name}</div>
+      <select class="ra-select" id="role-${m.id}">${ROLES.map(r=>`<option value="${r}" ${cur===r?'selected':''}>${r}</option>`).join('')}</select>
+    </div>`;
+  }).join('');
+}
+function collectRoles(){const roles={};members.forEach(m=>{const el=document.getElementById('role-'+m.id);if(el)roles[m.id]=el.value;});return roles;}
+
+/* ── Project CRUD ── */
 function openNew(stage){
   document.getElementById('n-title').value='';
   document.getElementById('n-stage').value=stage||'발굴';
   document.getElementById('n-pri').value='mid';
   document.getElementById('n-desc').value='';
-  document.getElementById('n-why').value='';
   document.getElementById('n-role-list').innerHTML=roleAssignHtml();
   openMod('m-new');
 }
-
 async function createProject(){
   const title=document.getElementById('n-title').value.trim();
   if(!title){toast('프로젝트명을 입력해주세요','err');return;}
   const stage=document.getElementById('n-stage').value;
-  const memberRoles=collectRoles();
-  const p={id:Date.now().toString(),title,stage,
-    priority:document.getElementById('n-pri').value,
-    memberRoles,
-    desc:document.getElementById('n-desc').value.trim(),
-    why:document.getElementById('n-why').value.trim(),
-    todos:TODOS_DEF[stage].map(t=>({text:t,done:false})),
-    notes:'',created:Date.now()};
+  const p={id:Date.now().toString(),title,stage,priority:document.getElementById('n-pri').value,
+    memberRoles:collectRoles(),desc:document.getElementById('n-desc').value.trim(),
+    todos:TODOS_DEF[stage].map(t=>({text:t,done:false})),wsData:{},notes:'',created:Date.now()};
   showLoading('Sheets에 저장 중...');
   const ok=await apiPost('create',p);
   if(ok){projects.push(p);activity.unshift({text:`"${title}" 생성 (${stage})`,stage,time:Date.now()});
@@ -664,37 +964,33 @@ async function createProject(){
 
 function openDetail(id){
   currentId=id;const p=projects.find(x=>x.id==id);if(!p)return;
+  const tabs=WS_TABS[p.stage]||[];
   document.getElementById('det-title').textContent=p.title;
   document.getElementById('det-body').innerHTML=`
     <div class="sec-lbl">현재 단계</div>
-    <div class="stage-sel">
-      ${STAGES.map(s=>`<div class="ss-item ${p.stage===s?'a-'+s:''}" onclick="changeStage('${p.id}','${s}')">${ICONS[s]}<br/>${s}</div>`).join('')}
+    <div class="stage-sel">${STAGES.map(s=>`<div class="ss-item ${p.stage===s?'a-'+s:''}" onclick="changeStage('${p.id}','${s}')">${ICONS[s]}<br/>${s}</div>`).join('')}</div>
+    <div class="g2" style="margin-bottom:14px">
+      <div class="field" style="margin:0"><label>우선순위</label>
+        <select id="d-pri"><option value="high" ${p.priority==='high'?'selected':''}>🔴 높음</option><option value="mid" ${p.priority==='mid'?'selected':''}>🟡 중간</option><option value="low" ${p.priority==='low'?'selected':''}>🟢 낮음</option></select></div>
+      <div class="field" style="margin:0"><label>한 줄 설명</label><input id="d-desc" value="${p.desc||''}" placeholder="어떤 문제를 해결하나요?"/></div>
     </div>
-    <div class="field">
-      <label>우선순위</label>
-      <select id="d-pri">
-        <option value="high" ${p.priority==='high'?'selected':''}>🔴 높음</option>
-        <option value="mid" ${p.priority==='mid'?'selected':''}>🟡 중간</option>
-        <option value="low" ${p.priority==='low'?'selected':''}>🟢 낮음</option>
-      </select>
-    </div>
-    <div class="field">
-      <label>팀원 역할 배분 <span style="font-size:10px;color:var(--muted);font-family:'Pretendard',sans-serif;text-transform:none;letter-spacing:0">(역할 정의는 '팀원 & 역할' 탭 참고)</span></label>
-      <div class="role-assign-list" id="d-role-list">${roleAssignHtml(p.memberRoles||{})}</div>
-    </div>
-    <div class="field"><label>한 줄 설명</label><input id="d-desc" value="${p.desc||''}"/></div>
-    <div class="field"><label>핵심 가설 (Why)</label><textarea id="d-why">${p.why||''}</textarea></div>
-    <div class="sec-lbl" style="margin-top:8px">체크리스트 — ${p.stage}</div>
+    <div class="field"><label>팀원 역할 배분</label><div class="role-assign-list" id="d-role-list">${roleAssignHtml(p.memberRoles||{})}</div></div>
+    <div class="sec-lbl" style="margin-top:12px">체크리스트 — ${p.stage}</div>
     <div class="todos" id="todos-${p.id}">
-      ${(p.todos||[]).map((t,i)=>`
-        <div class="todo">
-          <div class="chk ${t.done?'done':''}" onclick="toggleTodo('${p.id}',${i})"></div>
-          <div class="todo-txt ${t.done?'done':''}">${t.text}</div>
-          <button class="todo-del" onclick="delTodo('${p.id}',${i})">✕</button>
-        </div>`).join('')||'<div class="empty">할 일 없음</div>'}
+      ${(p.todos||[]).map((t,i)=>`<div class="todo">
+        <div class="chk ${t.done?'done':''}" onclick="toggleTodo('${p.id}',${i})"></div>
+        <div class="todo-txt ${t.done?'done':''}">${t.text}</div>
+        <button class="todo-del" onclick="delTodo('${p.id}',${i})">✕</button>
+      </div>`).join('')||'<div class="empty">할 일 없음</div>'}
     </div>
     <div class="add-row"><input id="ti-${p.id}" placeholder="할 일 추가..." onkeydown="if(event.key==='Enter')addTodo('${p.id}')"/><button class="btn btn-sm" onclick="addTodo('${p.id}')">추가</button></div>
-    <div class="field" style="margin-top:16px"><label>메모</label><textarea id="d-notes">${p.notes||''}</textarea></div>`;
+    ${tabs.length?`<div style="margin-top:16px;padding:14px;background:var(--accent-light);border-radius:10px;border:1.5px solid #c7d5fa;">
+      <div style="font-size:12px;color:#1e3a8a;font-weight:600;margin-bottom:10px;">🛠 이 단계의 워크시트 도구</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">${tabs.map(t=>`
+        <button class="btn-stage" style="background:${COLS[p.stage]}11;color:${COLS[p.stage]};border:1.5px solid ${COLS[p.stage]}33;justify-content:flex-start;" onclick="closeMod('m-det');openWorksheet('${p.id}');setTimeout(()=>{document.querySelector('[onclick*=${t.id}]')?.click()},400)">
+          ${t.icon} ${t.label} <span style="margin-left:auto;font-size:11px;opacity:.6">→ 워크시트 열기</span>
+        </button>`).join('')}</div>
+    </div>`:''}`;
   openMod('m-det');
 }
 
@@ -717,14 +1013,11 @@ function addTodo(id){
   const inp=document.getElementById('ti-'+id);const txt=inp.value.trim();if(!txt)return;
   const p=projects.find(x=>x.id==id);if(!p)return;p.todos.push({text:txt,done:false});inp.value='';openDetail(id);
 }
-
 async function saveDetail(){
   const p=projects.find(x=>x.id==currentId);if(!p)return;
   p.priority=document.getElementById('d-pri').value;
   p.memberRoles=collectRoles();
   p.desc=document.getElementById('d-desc').value.trim();
-  p.why=document.getElementById('d-why').value.trim();
-  p.notes=document.getElementById('d-notes').value.trim();
   showLoading('Sheets에 저장 중...');
   const ok=await apiPost('update',p);
   if(ok){activity.unshift({text:`"${p.title}" 업데이트`,stage:p.stage,time:Date.now()});
@@ -739,11 +1032,7 @@ async function deleteProject(){
   saveLocal();await apiGet();renderAll();closeMod('m-det');toast('삭제되었습니다.');hideLoading();
 }
 
-function openAddMember(){
-  document.getElementById('mem-name').value='';
-  document.getElementById('mem-note').value='';
-  openMod('m-mem');
-}
+function openAddMember(){document.getElementById('mem-name').value='';document.getElementById('mem-note').value='';openMod('m-mem');}
 function addMember(){
   const name=document.getElementById('mem-name').value.trim();
   if(!name){toast('이름을 입력해주세요','err');return;}
@@ -755,7 +1044,6 @@ function removeMember(id){
   members=members.filter(x=>x.id!==id);saveLocal();renderMembers();toast('제거되었습니다.');
 }
 
-// 초기화
 loadLocal();renderMembers();loadProjects();
 </script>
 </body>
