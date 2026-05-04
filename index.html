@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PM Loop PRO</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Pretendard:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:#f5f4f0;--surface:#fff;--card:#fafaf8;
+  --border:#e8e5df;--border2:#d4d0c8;
+  --text:#1a1916;--muted:#8c8880;--muted2:#b5b0a8;
+  --accent:#2d5be3;--accent-light:#e8edfc;
+  --s1:#2563eb;--s1b:#dbeafe;--s1t:#1e40af;
+  --s2:#0891b2;--s2b:#cffafe;--s2t:#0e7490;
+  --s3:#d97706;--s3b:#fef3c7;--s3t:#92400e;
+  --s4:#ea580c;--s4b:#ffedd5;--s4t:#9a3412;
+  --s5:#16a34a;--s5b:#dcfce7;--s5t:#14532d;
+  --shadow:0 1px 3px rgba(0,0,0,.08);
+  --shadow-md:0 4px 12px rgba(0,0,0,.1);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Pretendard',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+.app{display:grid;grid-template-rows:auto 1fr;height:100vh;overflow:hidden;}
+
+/* Topbar */
+.topbar{background:var(--surface);border-bottom:2px solid var(--text);padding:0 24px;display:flex;align-items:center;gap:20px;height:52px;flex-shrink:0;}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;}
+.logo em{color:var(--accent);font-style:normal;}
+.nav{display:flex;gap:2px;margin-left:12px;}
+.nav-btn{padding:5px 14px;border:none;background:none;font-family:'Pretendard',sans-serif;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-radius:5px;transition:all .15s;}
+.nav-btn.on{background:var(--text);color:#fff;}
+.nav-btn:hover:not(.on){background:var(--border);color:var(--text);}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.sync-status{display:flex;align-items:center;gap:6px;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--muted);padding:4px 10px;background:var(--card);border:1px solid var(--border);border-radius:20px;}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--muted2);}
+.sync-dot.ok{background:#16a34a;}
+.sync-dot.err{background:#dc2626;}
+.sync-dot.ing{background:#d97706;animation:blink .8s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.btn{padding:6px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid var(--border2);background:var(--surface);color:var(--text);font-family:'Pretendard',sans-serif;transition:all .15s;}
+.btn:hover{border-color:var(--accent);color:var(--accent);}
+.btn-primary{background:var(--text);border-color:var(--text);color:#fff;}
+.btn-primary:hover{background:#333;border-color:#333;color:#fff;}
+.btn-sm{padding:4px 10px;font-size:12px;}
+.btn-danger{color:#dc2626;border-color:#fca5a5;}
+
+/* Pages */
+.page{display:none;height:calc(100vh - 52px);overflow:hidden;}
+.page.on{display:flex;flex-direction:column;}
+
+/* Dashboard */
+.dash-top{padding:20px 24px 14px;display:flex;align-items:flex-end;justify-content:space-between;flex-shrink:0;}
+.dash-heading{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.5px;line-height:1;}
+.dash-sub{font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--muted);margin-top:2px;}
+.stats{display:flex;gap:10px;padding:0 24px 16px;flex-shrink:0;}
+.stat{flex:1;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;box-shadow:var(--shadow);}
+.stat-l{font-size:10px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:6px;}
+.stat-n{font-family:'Bebas Neue',sans-serif;font-size:32px;line-height:1;}
+.stat-s{font-size:11px;color:var(--muted);margin-top:2px;}
+
+/* Kanban */
+.kanban{display:flex;gap:12px;padding:0 24px 24px;overflow-x:auto;flex:1;align-items:flex-start;}
+.kanban::-webkit-scrollbar{height:5px;}
+.kanban::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+.col{flex:0 0 230px;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;display:flex;flex-direction:column;max-height:100%;box-shadow:var(--shadow);}
+.col-hd{padding:13px 14px 11px;border-bottom:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;gap:8px;}
+.col-stripe{width:3px;height:16px;border-radius:2px;flex-shrink:0;}
+.col-name{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.5px;}
+.col-cnt{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);background:var(--bg);padding:2px 7px;border-radius:10px;}
+.col-body{padding:10px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:8px;}
+.col-body::-webkit-scrollbar{width:4px;}
+.col-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.col-foot{padding:8px 10px;flex-shrink:0;}
+.col-add-btn{width:100%;background:none;border:1.5px dashed var(--border2);border-radius:7px;color:var(--muted);font-size:12px;font-weight:500;padding:7px;cursor:pointer;font-family:'Pretendard',sans-serif;transition:all .15s;}
+.col-add-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* Project Card */
+.pcard{background:var(--card);border:1.5px solid var(--border);border-radius:9px;padding:12px;cursor:pointer;transition:all .15s;}
+.pcard:hover{border-color:var(--border2);box-shadow:var(--shadow-md);transform:translateY(-1px);}
+.pcard-title{font-weight:600;font-size:13px;margin-bottom:7px;line-height:1.4;}
+.pcard-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px;}
+.tag{font-size:10px;font-family:'JetBrains Mono',monospace;font-weight:500;padding:2px 7px;border-radius:4px;}
+.tag-발굴{background:var(--s1b);color:var(--s1t);}
+.tag-검증{background:var(--s2b);color:var(--s2t);}
+.tag-전략{background:var(--s3b);color:var(--s3t);}
+.tag-실행{background:var(--s4b);color:var(--s4t);}
+.tag-측정{background:var(--s5b);color:var(--s5t);}
+.tag-high{background:#fee2e2;color:#991b1b;}
+.tag-mid{background:#fef3c7;color:#92400e;}
+.tag-low{background:#dcfce7;color:#14532d;}
+.pcard-owner{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:6px;}
+.pcard-members{display:flex;gap:3px;margin-bottom:6px;flex-wrap:wrap;}
+.avatar-xs{width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;}
+.prog-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:2px;transition:width .4s;}
+.prog-lbl{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--muted);margin-top:3px;}
+
+/* Modal */
+.mbg{display:none;position:fixed;inset:0;background:rgba(26,25,22,.55);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.mbg.on{display:flex;}
+.modal{background:var(--surface);border:1.5px solid var(--border2);border-radius:16px;width:560px;max-width:96vw;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-md);}
+.modal::-webkit-scrollbar{width:5px;}
+.modal::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+.mhd{padding:20px 22px 16px;border-bottom:1.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--surface);z-index:1;}
+.mtitle{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.5px;}
+.mclose{background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted);padding:2px 8px;border-radius:4px;}
+.mclose:hover{background:var(--border);color:var(--text);}
+.mbody{padding:20px 22px;}
+.mfoot{padding:14px 22px;border-top:1.5px solid var(--border);display:flex;gap:8px;align-items:center;position:sticky;bottom:0;background:var(--surface);}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:11px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:6px;font-weight:500;}
+.field input,.field textarea,.field select{width:100%;background:var(--bg);border:1.5px solid var(--border2);border-radius:8px;color:var(--text);font-family:'Pretendard',sans-serif;font-size:14px;padding:9px 12px;outline:none;transition:border .15s;}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent);}
+.field select option{background:var(--surface);}
+.field textarea{resize:vertical;min-height:76px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* Stage selector */
+.stage-sel{display:flex;gap:6px;margin-bottom:18px;}
+.ss-item{flex:1;text-align:center;padding:8px 4px;border-radius:8px;border:1.5px solid var(--border);cursor:pointer;transition:all .15s;font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--muted);line-height:1.5;}
+.ss-item:hover{border-color:var(--border2);}
+.ss-item.a-발굴{background:var(--s1b);border-color:var(--s1);color:var(--s1t);font-weight:600;}
+.ss-item.a-검증{background:var(--s2b);border-color:var(--s2);color:var(--s2t);font-weight:600;}
+.ss-item.a-전략{background:var(--s3b);border-color:var(--s3);color:var(--s3t);font-weight:600;}
+.ss-item.a-실행{background:var(--s4b);border-color:var(--s4);color:var(--s4t);font-weight:600;}
+.ss-item.a-측정{background:var(--s5b);border-color:var(--s5);color:var(--s5t);font-weight:600;}
+
+/* Todo */
+.sec-lbl{font-size:11px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:8px;font-weight:500;}
+.todos{display:flex;flex-direction:column;gap:5px;}
+.todo{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg);border-radius:7px;border:1.5px solid var(--border);}
+.chk{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+.chk.done{background:var(--accent);border-color:var(--accent);}
+.chk.done::after{content:'✓';font-size:10px;color:#fff;font-weight:700;}
+.todo-txt{font-size:13px;flex:1;}
+.todo-txt.done{text-decoration:line-through;color:var(--muted);}
+.todo-del{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:13px;padding:2px 5px;border-radius:3px;transition:all .15s;}
+.todo-del:hover{color:#dc2626;background:#fee2e2;}
+.add-row{display:flex;gap:6px;margin-top:8px;}
+.add-row input{flex:1;}
+
+/* Member chips */
+.member-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.mchip{display:flex;align-items:center;gap:6px;padding:5px 10px 5px 5px;background:var(--bg);border:1.5px solid var(--border);border-radius:20px;font-size:12px;cursor:pointer;transition:all .15s;user-select:none;}
+.mchip.sel{border-color:var(--accent);background:var(--accent-light);}
+.mchip:hover{border-color:var(--border2);}
+.mchip-av{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;}
+
+/* Analytics */
+#pg-analytics{overflow-y:auto;padding:24px;gap:16px;}
+.an-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.5px;margin-bottom:4px;flex-shrink:0;}
+.an-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow);}
+.an-sub{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.3px;margin-bottom:14px;}
+.funnel-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.f-lbl{font-size:11px;font-family:'JetBrains Mono',monospace;width:48px;text-align:right;flex-shrink:0;font-weight:500;}
+.f-wrap{flex:1;height:26px;background:var(--bg);border-radius:5px;overflow:hidden;border:1px solid var(--border);}
+.f-bar{height:100%;border-radius:5px;display:flex;align-items:center;padding:0 8px;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:600;transition:width .6s;}
+.f-num{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;width:20px;text-align:right;}
+.act-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+.act-item:last-child{border-bottom:none;}
+.act-dot{width:6px;height:6px;border-radius:50%;margin-top:5px;flex-shrink:0;}
+.act-txt{font-size:13px;flex:1;line-height:1.5;}
+.act-time{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;flex-shrink:0;padding-top:2px;}
+
+/* Members */
+#pg-members{overflow-y:auto;padding:24px;gap:12px;}
+.pg-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.5px;flex-shrink:0;}
+.mem-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px 18px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow);margin-bottom:10px;}
+.av-lg{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;}
+.mi-name{font-weight:600;font-size:14px;margin-bottom:2px;}
+.mi-role{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+.ms-right{margin-left:auto;text-align:right;}
+.ms-cnt{font-family:'Bebas Neue',sans-serif;font-size:26px;line-height:1;}
+.ms-lbl{font-size:11px;color:var(--muted);}
+.add-mem-btn{width:100%;padding:12px;background:none;border:1.5px dashed var(--border2);border-radius:12px;color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;font-family:'Pretendard',sans-serif;transition:all .15s;margin-top:4px;}
+.add-mem-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:500;z-index:999;opacity:0;transform:translateY(8px);transition:all .2s;pointer-events:none;box-shadow:var(--shadow-md);}
+.toast.ok{background:var(--text);color:#fff;}
+.toast.err{background:#dc2626;color:#fff;}
+.toast.show{opacity:1;transform:translateY(0);}
+
+/* Empty */
+.empty{text-align:center;padding:28px 10px;color:var(--muted2);font-size:12px;}
+.empty-ic{font-size:26px;margin-bottom:6px;}
+
+/* Loading */
+.loading{display:none;position:fixed;inset:0;background:rgba(245,244,240,.88);z-index:300;align-items:center;justify-content:center;flex-direction:column;gap:12px;}
+.loading.on{display:flex;}
+.loading-txt{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);}
+.spinner{width:28px;height:28px;border:2.5px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="logo">PM<em>Loop</em> <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);font-weight:400;margin-left:4px;">PRO</span></div>
+    <div class="nav">
+      <button class="nav-btn on" onclick="goPage('dashboard')">보드</button>
+      <button class="nav-btn" onclick="goPage('analytics')">분석</button>
+      <button class="nav-btn" onclick="goPage('members')">팀원</button>
+    </div>
+    <div class="topbar-right">
+      <div class="sync-status">
+        <div class="sync-dot ing" id="sync-dot"></div>
+        <span id="sync-txt">연결 중...</span>
+      </div>
+      <button class="btn btn-sm" onclick="loadProjects()">↻ 새로고침</button>
+      <button class="btn btn-primary" onclick="openNew()">+ 프로젝트</button>
+    </div>
+  </div>
+
+  <!-- 보드 -->
+  <div class="page on" id="pg-dashboard">
+    <div class="dash-top">
+      <div>
+        <div class="dash-heading">프로젝트 보드</div>
+        <div class="dash-sub" id="dash-sub">Google Sheets 연동 중...</div>
+      </div>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="kanban" id="kanban"></div>
+  </div>
+
+  <!-- 분석 -->
+  <div class="page" id="pg-analytics">
+    <div class="an-title">루프 분석</div>
+    <div class="an-card" id="funnel"></div>
+    <div class="an-card" style="margin-top:16px" id="act-list"></div>
+  </div>
+
+  <!-- 팀원 -->
+  <div class="page" id="pg-members">
+    <div class="pg-title">팀원 관리</div>
+    <div id="mem-list"></div>
+    <button class="add-mem-btn" onclick="openAddMember()">+ 객원 멤버 추가</button>
+  </div>
+</div>
+
+<!-- Loading -->
+<div class="loading" id="loading">
+  <div class="spinner"></div>
+  <div class="loading-txt" id="loading-txt">Google Sheets 동기화 중...</div>
+</div>
+
+<!-- 새 프로젝트 모달 -->
+<div class="mbg" id="m-new">
+  <div class="modal">
+    <div class="mhd"><div class="mtitle">새 프로젝트</div><button class="mclose" onclick="closeMod('m-new')">✕</button></div>
+    <div class="mbody">
+      <div class="field"><label>프로젝트명 *</label><input id="n-title" placeholder="예: 사용자 온보딩 개선"/></div>
+      <div class="field"><label>현재 단계</label>
+        <select id="n-stage">
+          <option value="발굴">① 발굴 — EMUC 소싱 · Why ×3</option>
+          <option value="검증">② 검증 — 인터뷰 · 게릴라 테스트</option>
+          <option value="전략">③ 전략 — 위닝플랜 · TAM/SAM/SOM</option>
+          <option value="실행">④ 실행 — MVP · 스프린트</option>
+          <option value="측정">⑤ 측정 — AARRR · PMF 체크</option>
+        </select>
+      </div>
+      <div class="g2">
+        <div class="field" style="margin:0"><label>우선순위</label>
+          <select id="n-pri"><option value="high">🔴 높음</option><option value="mid" selected>🟡 중간</option><option value="low">🟢 낮음</option></select>
+        </div>
+        <div class="field" style="margin:0"><label>PM 담당자</label><input id="n-owner" placeholder="이름"/></div>
+      </div>
+      <div class="field" style="margin-top:16px"><label>팀원 배정</label>
+        <div class="member-chips" id="n-member-chips"></div>
+      </div>
+      <div class="field"><label>한 줄 설명</label><input id="n-desc" placeholder="어떤 문제를 해결하나요?"/></div>
+      <div class="field"><label>핵심 가설 (Why)</label><textarea id="n-why" placeholder="왜 이 프로젝트가 필요한가요? Why를 3번 물어보세요."></textarea></div>
+    </div>
+    <div class="mfoot">
+      <button class="btn" onclick="closeMod('m-new')">취소</button>
+      <div style="flex:1"></div>
+      <button class="btn btn-primary" onclick="createProject()">Sheets에 저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- 상세 모달 -->
+<div class="mbg" id="m-det">
+  <div class="modal">
+    <div class="mhd"><div class="mtitle" id="det-title"></div><button class="mclose" onclick="closeMod('m-det')">✕</button></div>
+    <div class="mbody" id="det-body"></div>
+    <div class="mfoot">
+      <button class="btn btn-danger" onclick="deleteProject()">삭제</button>
+      <div style="flex:1"></div>
+      <button class="btn" onclick="closeMod('m-det')">닫기</button>
+      <button class="btn btn-primary" onclick="saveDetail()">Sheets 저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- 팀원 추가 모달 -->
+<div class="mbg" id="m-mem">
+  <div class="modal" style="width:400px">
+    <div class="mhd"><div class="mtitle">팀원 추가</div><button class="mclose" onclick="closeMod('m-mem')">✕</button></div>
+    <div class="mbody">
+      <div class="field"><label>이름</label><input id="mem-name" placeholder="홍길동"/></div>
+      <div class="g2">
+        <div class="field" style="margin:0"><label>역할</label><input id="mem-role" placeholder="Designer, Engineer..."/></div>
+        <div class="field" style="margin:0"><label>유형</label>
+          <select id="mem-type"><option value="guest">객원</option><option value="core">정규</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="mfoot">
+      <button class="btn" onclick="closeMod('m-mem')">취소</button>
+      <div style="flex:1"></div>
+      <button class="btn btn-primary" onclick="addMember()">추가</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ★ Apps Script 배포 ID
+const SCRIPT_ID = 'AKfycbwj-XpLopYt0hrefptM5JqnWRnB0Nl3XqjzLiVeipRSdCadd84nKwL39bomdecFueyLGA';
+const API = `https://script.google.com/macros/s/${SCRIPT_ID}/exec`;
+
+const STAGES = ['발굴','검증','전략','실행','측정'];
+const ICONS  = {발굴:'🔍',검증:'🧪',전략:'🎯',실행:'⚙️',측정:'📊'};
+const COLS   = {발굴:'#2563eb',검증:'#0891b2',전략:'#d97706',실행:'#ea580c',측정:'#16a34a'};
+const TODOS_DEF = {
+  발굴:['EMUC 채널에서 아이디어 수집','Why를 3번 물어보기','실제 문제인지 확인','부작용 여부 검토'],
+  검증:['고객 인터뷰 3명 이상 진행','게릴라 테스트 실시','목업/와이어프레임 제작','피드백 정리 및 패턴 도출'],
+  전략:['TAM/SAM/SOM 분석','경쟁자 4유형 분석','위닝플랜 7가지 조건 충족','로드맵 초안 작성'],
+  실행:['RICE 점수로 우선순위 결정','Walking Skeleton 구성','MVP 범위 확정','스프린트 계획 수립'],
+  측정:['AARRR 지표 세팅','허세지표 제거','Retention 주 단위 추적','PMF 체크리스트 점검']
+};
+const AV_COLORS = [
+  {bg:'#dbeafe',c:'#1e40af'},{bg:'#fce7f3',c:'#9d174d'},
+  {bg:'#dcfce7',c:'#14532d'},{bg:'#fef3c7',c:'#92400e'},
+  {bg:'#ede9fe',c:'#4c1d95'},{bg:'#fee2e2',c:'#991b1b'},
+  {bg:'#cffafe',c:'#0e7490'},{bg:'#fef9c3',c:'#713f12'}
+];
+
+let projects=[], activity=[], currentId=null;
+let members=[
+  {id:'m1',name:'김민준',role:'PM Lead',type:'core'},
+  {id:'m2',name:'이서연',role:'PO',type:'core'},
+  {id:'m3',name:'박지호',role:'Designer',type:'core'},
+  {id:'m4',name:'최수아',role:'Engineer',type:'core'},
+  {id:'m5',name:'정태양',role:'Engineer',type:'core'},
+];
+
+// LocalStorage (GitHub Pages용)
+function loadLocal(){
+  try{const m=localStorage.getItem('pmloop-members');if(m)members=JSON.parse(m);}catch(e){}
+  try{const a=localStorage.getItem('pmloop-activity');if(a)activity=JSON.parse(a);}catch(e){}
+}
+function saveLocal(){
+  try{localStorage.setItem('pmloop-members',JSON.stringify(members));}catch(e){}
+  try{localStorage.setItem('pmloop-activity',JSON.stringify(activity.slice(0,40)));}catch(e){}
+}
+
+function setSyncStatus(state,txt){
+  document.getElementById('sync-dot').className='sync-dot '+(state==='ok'?'ok':state==='err'?'err':'ing');
+  document.getElementById('sync-txt').textContent=txt;
+}
+
+async function apiGet(){
+  setSyncStatus('ing','동기화 중...');
+  try{
+    const r=await fetch(API,{redirect:'follow'});
+    const data=JSON.parse(await r.text());
+    projects=data.map(p=>({...p,todos:safeJson(p.todos,[]),members:safeJson(p.members,[])}));
+    setSyncStatus('ok','Sheets 연결됨');
+    return true;
+  }catch(e){
+    setSyncStatus('err','연결 실패');
+    toast('Google Sheets 연결 실패','err');
+    return false;
+  }
+}
+async function apiPost(action,project){
+  try{
+    await fetch(API,{method:'POST',redirect:'follow',
+      body:JSON.stringify({action,project:{
+        ...project,
+        todos:JSON.stringify(project.todos||[]),
+        members:JSON.stringify(project.members||[])
+      }})
+    });
+    return true;
+  }catch(e){toast('저장 실패','err');return false;}
+}
+function safeJson(v,fb){try{return typeof v==='string'?JSON.parse(v):v||fb;}catch{return fb;}}
+
+async function loadProjects(){
+  showLoading('Google Sheets 동기화 중...');
+  await apiGet();
+  hideLoading();
+  renderAll();
+}
+
+function renderAll(){
+  renderStats();renderKanban();renderAnalytics();renderMembers();
+  document.getElementById('dash-sub').textContent=`총 ${projects.length}개 프로젝트 · ${members.length}명`;
+}
+
+function renderStats(){
+  const c={};STAGES.forEach(s=>c[s]=0);
+  projects.forEach(p=>c[p.stage]=(c[p.stage]||0)+1);
+  document.getElementById('stats').innerHTML=`
+    <div class="stat"><div class="stat-l">전체</div><div class="stat-n">${projects.length}</div><div class="stat-s">프로젝트</div></div>
+    <div class="stat"><div class="stat-l">발굴중</div><div class="stat-n" style="color:${COLS['발굴']}">${c['발굴']||0}</div><div class="stat-s">아이디어</div></div>
+    <div class="stat"><div class="stat-l">실행중</div><div class="stat-n" style="color:${COLS['실행']}">${c['실행']||0}</div><div class="stat-s">스프린트</div></div>
+    <div class="stat"><div class="stat-l">측정중</div><div class="stat-n" style="color:${COLS['측정']}">${c['측정']||0}</div><div class="stat-s">PMF 추적</div></div>`;
+}
+
+function renderKanban(){
+  const kb=document.getElementById('kanban');kb.innerHTML='';
+  STAGES.forEach(s=>{
+    const ps=projects.filter(p=>p.stage===s);
+    const col=document.createElement('div');col.className='col';
+    const cards=ps.map(p=>{
+      const prog=getProgress(p);
+      const mems=(p.members||[]).slice(0,4).map(mid=>{
+        const m=members.find(x=>x.id===mid);if(!m)return '';
+        const av=getAv(m.id);
+        return `<div class="avatar-xs" style="background:${av.bg};color:${av.c}" title="${m.name}">${m.name[0]}</div>`;
+      }).join('');
+      return `<div class="pcard" onclick="openDetail('${p.id}')">
+        <div class="pcard-title">${p.title}</div>
+        <div class="pcard-tags">
+          <span class="tag tag-${s}">${ICONS[s]} ${s}</span>
+          <span class="tag tag-${p.priority}">${p.priority==='high'?'높음':p.priority==='mid'?'중간':'낮음'}</span>
+        </div>
+        ${p.owner?`<div class="pcard-owner">👤 ${p.owner}</div>`:''}
+        ${mems?`<div class="pcard-members">${mems}</div>`:''}
+        <div class="prog-bar"><div class="prog-fill" style="width:${prog}%;background:${COLS[s]}"></div></div>
+        <div class="prog-lbl">${prog}% 완료</div>
+      </div>`;
+    }).join('');
+    col.innerHTML=`
+      <div class="col-hd">
+        <div class="col-stripe" style="background:${COLS[s]}"></div>
+        <div class="col-name">${ICONS[s]} ${s}</div>
+        <div class="col-cnt">${ps.length}</div>
+      </div>
+      <div class="col-body">${cards||'<div class="empty"><div class="empty-ic">○</div>없음</div>'}</div>
+      <div class="col-foot"><button class="col-add-btn" onclick="openNew('${s}')">+ 추가</button></div>`;
+    kb.appendChild(col);
+  });
+}
+
+function getProgress(p){
+  if(!p.todos||!p.todos.length)return 0;
+  return Math.round(p.todos.filter(t=>t.done).length/p.todos.length*100);
+}
+function getAv(id){
+  const idx=[...id].reduce((a,c)=>a+c.charCodeAt(0),0)%AV_COLORS.length;
+  return AV_COLORS[idx];
+}
+
+function renderAnalytics(){
+  const c={};STAGES.forEach(s=>c[s]=0);
+  projects.forEach(p=>c[p.stage]=(c[p.stage]||0)+1);
+  const max=Math.max(...Object.values(c),1);
+  document.getElementById('funnel').innerHTML=`
+    <div class="an-sub">단계별 현황</div>
+    ${STAGES.map(s=>`
+      <div class="funnel-row">
+        <div class="f-lbl" style="color:${COLS[s]}">${s}</div>
+        <div class="f-wrap"><div class="f-bar" style="width:${c[s]/max*100}%;background:${COLS[s]}22;color:${COLS[s]};border-right:2px solid ${COLS[s]}">${c[s]>0?c[s]+'개':''}</div></div>
+        <div class="f-num" style="color:${COLS[s]}">${c[s]||0}</div>
+      </div>`).join('')}
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted)">
+      발굴→측정 전환율: ${projects.length?Math.round((c['측정']||0)/projects.length*100):0}%
+    </div>`;
+  document.getElementById('act-list').innerHTML=`
+    <div class="an-sub">최근 활동</div>
+    ${activity.length?activity.slice(0,10).map(a=>`
+      <div class="act-item">
+        <div class="act-dot" style="background:${COLS[a.stage]||'#aaa'}"></div>
+        <div class="act-txt">${a.text}</div>
+        <div class="act-time">${timeAgo(a.time)}</div>
+      </div>`).join(''):'<div class="empty"><div class="empty-ic">⏳</div>활동 없음</div>'}`;
+}
+
+function renderMembers(){
+  const oc={};
+  projects.forEach(p=>{
+    (p.members||[]).forEach(mid=>oc[mid]=(oc[mid]||0)+1);
+    if(p.owner){const m=members.find(x=>x.name===p.owner);if(m)oc[m.id]=(oc[m.id]||0)+1;}
+  });
+  document.getElementById('mem-list').innerHTML=members.map(m=>{
+    const av=getAv(m.id);
+    return `<div class="mem-card">
+      <div class="av-lg" style="background:${av.bg};color:${av.c}">${m.name[0]}</div>
+      <div>
+        <div class="mi-name">${m.name}${m.type==='guest'?' <span class="tag" style="background:#f3f4f6;color:#6b7280;font-size:9px">객원</span>':''}</div>
+        <div class="mi-role">${m.role}</div>
+      </div>
+      <div class="ms-right">
+        <div class="ms-cnt" style="color:${av.c}">${oc[m.id]||0}</div>
+        <div class="ms-lbl">참여 프로젝트</div>
+      </div>
+      ${m.type==='guest'?`<button class="btn btn-sm btn-danger" style="margin-left:8px" onclick="removeMember('${m.id}')">제거</button>`:''}
+    </div>`;
+  }).join('');
+}
+
+function goPage(id){
+  document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('on',['dashboard','analytics','members'][i]===id));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pg-'+id).classList.add('on');
+}
+function openMod(id){document.getElementById(id).classList.add('on');}
+function closeMod(id){document.getElementById(id).classList.remove('on');}
+function showLoading(txt){document.getElementById('loading-txt').textContent=txt;document.getElementById('loading').classList.add('on');}
+function hideLoading(){document.getElementById('loading').classList.remove('on');}
+function toast(msg,type='ok'){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='toast '+(type==='err'?'err':'ok');
+  el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);
+}
+function timeAgo(ts){
+  const d=Date.now()-ts;
+  if(d<60000)return '방금';if(d<3600000)return Math.floor(d/60000)+'분 전';
+  if(d<86400000)return Math.floor(d/3600000)+'시간 전';return Math.floor(d/86400000)+'일 전';
+}
+
+function memberChipsHtml(selected=[]){
+  return members.map(m=>{
+    const av=getAv(m.id);
+    return `<div class="mchip ${selected.includes(m.id)?'sel':''}" onclick="this.classList.toggle('sel')">
+      <div class="mchip-av" style="background:${av.bg};color:${av.c}">${m.name[0]}</div>${m.name}
+    </div>`;
+  }).join('');
+}
+function selectedMembers(cid){
+  return [...document.querySelectorAll(`#${cid} .mchip.sel`)].map(el=>{
+    const name=el.textContent.trim();
+    const m=members.find(x=>name.startsWith(x.name));return m?m.id:null;
+  }).filter(Boolean);
+}
+
+function openNew(stage){
+  document.getElementById('n-title').value='';
+  document.getElementById('n-stage').value=stage||'발굴';
+  document.getElementById('n-pri').value='mid';
+  document.getElementById('n-owner').value='';
+  document.getElementById('n-desc').value='';
+  document.getElementById('n-why').value='';
+  document.getElementById('n-member-chips').innerHTML=memberChipsHtml();
+  openMod('m-new');
+}
+async function createProject(){
+  const title=document.getElementById('n-title').value.trim();
+  if(!title){toast('프로젝트명을 입력해주세요','err');return;}
+  const stage=document.getElementById('n-stage').value;
+  const p={id:Date.now().toString(),title,stage,
+    priority:document.getElementById('n-pri').value,
+    owner:document.getElementById('n-owner').value.trim(),
+    members:selectedMembers('n-member-chips'),
+    desc:document.getElementById('n-desc').value.trim(),
+    why:document.getElementById('n-why').value.trim(),
+    todos:TODOS_DEF[stage].map(t=>({text:t,done:false})),
+    notes:'',created:Date.now()};
+  showLoading('Sheets에 저장 중...');
+  const ok=await apiPost('create',p);
+  if(ok){projects.push(p);activity.unshift({text:`"${title}" 생성 (${stage})`,stage,time:Date.now()});
+    saveLocal();renderAll();closeMod('m-new');toast('✓ Sheets에 저장되었습니다!');}
+  hideLoading();
+}
+
+function openDetail(id){
+  currentId=id;const p=projects.find(x=>x.id==id);if(!p)return;
+  document.getElementById('det-title').textContent=p.title;
+  document.getElementById('det-body').innerHTML=`
+    <div class="sec-lbl">현재 단계</div>
+    <div class="stage-sel">
+      ${STAGES.map(s=>`<div class="ss-item ${p.stage===s?'a-'+s:''}" onclick="changeStage('${p.id}','${s}')">${ICONS[s]}<br/>${s}</div>`).join('')}
+    </div>
+    <div class="g2" style="margin-bottom:16px">
+      <div class="field" style="margin:0"><label>우선순위</label>
+        <select id="d-pri">
+          <option value="high" ${p.priority==='high'?'selected':''}>🔴 높음</option>
+          <option value="mid" ${p.priority==='mid'?'selected':''}>🟡 중간</option>
+          <option value="low" ${p.priority==='low'?'selected':''}>🟢 낮음</option>
+        </select>
+      </div>
+      <div class="field" style="margin:0"><label>PM 담당자</label><input id="d-owner" value="${p.owner||''}"/></div>
+    </div>
+    <div class="field"><label>팀원</label><div class="member-chips" id="d-chips">${memberChipsHtml(p.members||[])}</div></div>
+    <div class="field"><label>한 줄 설명</label><input id="d-desc" value="${p.desc||''}"/></div>
+    <div class="field"><label>핵심 가설 (Why)</label><textarea id="d-why">${p.why||''}</textarea></div>
+    <div class="sec-lbl" style="margin-top:8px">체크리스트 — ${p.stage}</div>
+    <div class="todos" id="todos-${p.id}">
+      ${(p.todos||[]).map((t,i)=>`
+        <div class="todo">
+          <div class="chk ${t.done?'done':''}" onclick="toggleTodo('${p.id}',${i})"></div>
+          <div class="todo-txt ${t.done?'done':''}">${t.text}</div>
+          <button class="todo-del" onclick="delTodo('${p.id}',${i})">✕</button>
+        </div>`).join('')||'<div class="empty">할 일 없음</div>'}
+    </div>
+    <div class="add-row"><input id="ti-${p.id}" placeholder="할 일 추가..." onkeydown="if(event.key==='Enter')addTodo('${p.id}')"/><button class="btn btn-sm" onclick="addTodo('${p.id}')">추가</button></div>
+    <div class="field" style="margin-top:16px"><label>메모</label><textarea id="d-notes">${p.notes||''}</textarea></div>`;
+  openMod('m-det');
+}
+function changeStage(id,ns){
+  const p=projects.find(x=>x.id==id);if(!p||p.stage===ns)return;
+  const old=p.stage;p.stage=ns;p.todos=TODOS_DEF[ns].map(t=>({text:t,done:false}));
+  activity.unshift({text:`"${p.title}" ${old}→${ns}`,stage:ns,time:Date.now()});
+  saveLocal();openDetail(id);
+}
+function toggleTodo(id,i){
+  const p=projects.find(x=>x.id==id);if(!p||!p.todos[i])return;
+  p.todos[i].done=!p.todos[i].done;
+  const items=document.querySelectorAll(`#todos-${id} .todo`);
+  if(items[i]){items[i].querySelector('.chk').classList.toggle('done',p.todos[i].done);
+    items[i].querySelector('.todo-txt').classList.toggle('done',p.todos[i].done);}
+  renderStats();renderKanban();
+}
+function delTodo(id,i){const p=projects.find(x=>x.id==id);if(!p)return;p.todos.splice(i,1);openDetail(id);}
+function addTodo(id){
+  const inp=document.getElementById('ti-'+id);const txt=inp.value.trim();if(!txt)return;
+  const p=projects.find(x=>x.id==id);if(!p)return;p.todos.push({text:txt,done:false});inp.value='';openDetail(id);
+}
+async function saveDetail(){
+  const p=projects.find(x=>x.id==currentId);if(!p)return;
+  p.priority=document.getElementById('d-pri').value;
+  p.owner=document.getElementById('d-owner').value.trim();
+  p.members=selectedMembers('d-chips');
+  p.desc=document.getElementById('d-desc').value.trim();
+  p.why=document.getElementById('d-why').value.trim();
+  p.notes=document.getElementById('d-notes').value.trim();
+  showLoading('Sheets에 저장 중...');
+  const ok=await apiPost('update',p);
+  if(ok){activity.unshift({text:`"${p.title}" 업데이트`,stage:p.stage,time:Date.now()});
+    saveLocal();await apiGet();renderAll();closeMod('m-det');toast('✓ 저장되었습니다!');}
+  hideLoading();
+}
+async function deleteProject(){
+  if(!confirm('정말 삭제할까요?'))return;
+  const p=projects.find(x=>x.id==currentId);
+  showLoading('삭제 중...');
+  await apiPost('delete',p);
+  activity.unshift({text:`"${p.title}" 삭제`,stage:p.stage,time:Date.now()});
+  saveLocal();await apiGet();renderAll();closeMod('m-det');toast('삭제되었습니다.');hideLoading();
+}
+function openAddMember(){
+  document.getElementById('mem-name').value='';document.getElementById('mem-role').value='';
+  document.getElementById('mem-type').value='guest';openMod('m-mem');
+}
+async function addMember(){
+  const name=document.getElementById('mem-name').value.trim();
+  if(!name){toast('이름을 입력해주세요','err');return;}
+  members.push({id:'m'+Date.now(),name,role:document.getElementById('mem-role').value.trim()||'Member',type:document.getElementById('mem-type').value});
+  saveLocal();renderMembers();closeMod('m-mem');toast('팀원이 추가되었습니다!');
+}
+async function removeMember(id){
+  if(!confirm('제거할까요?'))return;
+  members=members.filter(x=>x.id!==id);saveLocal();renderMembers();toast('제거되었습니다.');
+}
+
+// 초기화
+loadLocal();
+renderMembers();
+loadProjects();
+</script>
+</body>
+</html>
